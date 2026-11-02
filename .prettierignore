@@ -1,0 +1,5 @@
+node_modules/
+dist/
+coverage/
+package-lock.json
+docs/architecture/phase-1-foundation.md
