@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="30" y1="10" x2="690" y2="810" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEECE2"/><stop offset="1" stop-color="#D2D7C8"/>
+    </linearGradient>
+    <linearGradient id="shade" x1="245" y1="193" x2="484" y2="354" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F3E9"/><stop offset="1" stop-color="#D8CCB5"/>
+    </linearGradient>
+    <linearGradient id="base" x1="300" y1="337" x2="433" y2="649" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C99A72"/><stop offset=".54" stop-color="#A87556"/><stop offset="1" stop-color="#805943"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 276 -274 0 365 386)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8DCAE" stop-opacity=".48"/><stop offset="1" stop-color="#F8DCAE" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="125" y="630" width="495" height="120" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="22"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h720v820H0z"/><path fill="url(#glow)" d="M0 0h720v820H0z"/>
+  <circle cx="559" cy="171" r="83" fill="#F6E2C2" fill-opacity=".72"/>
+  <path d="M0 657h720v163H0z" fill="#B5AF9E"/>
+  <path d="M53 656h614v19H53z" fill="#E9E3D7"/>
+  <ellipse cx="361" cy="676" rx="206" ry="38" fill="#4B4135" fill-opacity=".25" filter="url(#shadow)"/>
+  <path d="m242 239 47-105c7-15 22-25 39-25h72c17 0 32 10 39 25l47 105c6 14-4 30-19 30H261c-15 0-25-16-19-30Z" fill="url(#shade)"/>
+  <path d="M247 237c43 19 186 19 231 0" stroke="#C9BDA8" stroke-width="3"/>
+  <path d="M351 265h20v42c0 11 8 19 19 19h2v15h-62v-15h2c11 0 19-8 19-19v-42Z" fill="#BA8D67"/>
+  <path d="M330 331h62l13 248c2 34-24 62-59 62s-61-28-59-62l13-248Z" fill="url(#base)"/>
+  <ellipse cx="361" cy="332" rx="31" ry="9" fill="#D6B08D"/>
+  <path d="M339 420c9 12 19 17 30 18" stroke="#E9C9A8" stroke-opacity=".62" stroke-width="4" stroke-linecap="round"/>
+  <ellipse cx="361" cy="643" rx="54" ry="15" fill="#725541"/>
+  <path d="M284 659h154" stroke="#F8F3E7" stroke-opacity=".56" stroke-width="2"/>
+</svg>

@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="720" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9E9DF"/><stop offset="1" stop-color="#C9D2C7"/>
+    </linearGradient>
+    <linearGradient id="band" x1="249" y1="194" x2="478" y2="461" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#607B68"/><stop offset=".55" stop-color="#365447"/><stop offset="1" stop-color="#243D32"/>
+    </linearGradient>
+    <linearGradient id="cup" x1="209" y1="390" x2="342" y2="589" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#69816C"/><stop offset="1" stop-color="#294538"/>
+    </linearGradient>
+    <filter id="shadow" x="116" y="578" width="487" height="128" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h720v820H0z"/>
+  <circle cx="572" cy="172" r="96" fill="#F4E4C8" fill-opacity=".56"/>
+  <path d="M0 635h720v185H0z" fill="#B9B7A8"/>
+  <ellipse cx="360" cy="641" rx="207" ry="39" fill="#25342B" fill-opacity=".29" filter="url(#shadow)"/>
+  <path d="M225 448V337c0-90 60-154 135-154s135 64 135 154v111" stroke="#283F34" stroke-width="38" stroke-linecap="round"/>
+  <path d="M236 441V335c0-78 54-132 124-132s124 54 124 132v106" stroke="url(#band)" stroke-width="25" stroke-linecap="round"/>
+  <path d="M223 408h-17c-25 0-45 21-45 47v78c0 28 22 50 50 50h32V407h-20Z" fill="url(#cup)"/>
+  <path d="M497 408h17c25 0 45 21 45 47v78c0 28-22 50-50 50h-32V407h20Z" fill="url(#cup)"/>
+  <rect x="194" y="424" width="46" height="128" rx="21" fill="#233A30"/>
+  <rect x="480" y="424" width="46" height="128" rx="21" fill="#233A30"/>
+  <path d="M206 446h4v79h-4m298-79h4v79h-4" stroke="#A8B5A5" stroke-opacity=".55" stroke-width="3" stroke-linecap="round"/>
+  <path d="M247 628h226v14H247z" fill="#D4D0C2"/>
+  <path d="M279 642h18v72h-18zm144 0h18v72h-18z" fill="#948C7C"/>
+  <path d="M256 628c0-7 7-13 15-13h196c8 0 15 6 15 13" stroke="#F0EBDF" stroke-width="3"/>
+</svg>

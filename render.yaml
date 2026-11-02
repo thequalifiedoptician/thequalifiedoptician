@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: alsera-api
+    runtime: node
+    buildCommand: npm ci && npm run build --workspace @alsera/api
+    startCommand: npm run start --workspace @alsera/api
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: CORS_ORIGIN
+        sync: false

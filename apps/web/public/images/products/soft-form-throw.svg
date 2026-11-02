@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="720" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0ECE2"/><stop offset="1" stop-color="#D9D4C5"/>
+    </linearGradient>
+    <linearGradient id="fabric" x1="171" y1="278" x2="576" y2="654" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D8D2C3"/><stop offset=".45" stop-color="#F2EDE1"/><stop offset="1" stop-color="#B9B4A7"/>
+    </linearGradient>
+    <linearGradient id="fold" x1="234" y1="345" x2="518" y2="572" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F3E8" stop-opacity=".7"/><stop offset="1" stop-color="#AFA99A" stop-opacity=".3"/>
+    </linearGradient>
+    <filter id="shadow" x="108" y="605" width="510" height="133" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h720v820H0z"/>
+  <path d="M500 0h220v380H500z" fill="#BCC6B5" fill-opacity=".38"/>
+  <path d="M521 0v380m15-380v380" stroke="#FFFDF5" stroke-opacity=".57" stroke-width="3"/>
+  <path d="M0 639h720v181H0z" fill="#C5C0B1"/>
+  <ellipse cx="362" cy="647" rx="207" ry="37" fill="#4D493E" fill-opacity=".24" filter="url(#shadow)"/>
+  <path d="m166 390 251-146 184 90-259 155-176-99Z" fill="#B5AE9E"/>
+  <path d="m166 374 251-146 184 90-259 155-176-99Z" fill="url(#fabric)"/>
+  <path d="m166 374 176 99v206l-176-94V374Z" fill="#C3BCAA"/>
+  <path d="m342 473 259-155v198L342 679V473Z" fill="#D5CEC0"/>
+  <path d="m206 382 209-120 145 70-216 128-138-78Z" fill="url(#fold)"/>
+  <path d="m245 404 198-117m-146 136 199-117m-146 136 198-117" stroke="#A8A294" stroke-opacity=".45" stroke-width="2"/>
+  <path d="M184 592c49 4 100 24 158 57m19-183 196-117m-196 166 196-117m-196 166 196-117" stroke="#FBF8EE" stroke-opacity=".44" stroke-width="3"/>
+  <path d="M341 679v26m-13-19v24m26-39v27m-39-19v27" stroke="#A79F91" stroke-width="2" stroke-linecap="round"/>
+  <circle cx="220" cy="190" r="56" fill="#E5D6BD" fill-opacity=".62"/>
+</svg>

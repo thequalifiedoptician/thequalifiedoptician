@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" fill="none">
+  <defs>
+    <linearGradient id="wall" x1="40" y1="20" x2="833" y2="1048" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D5D6C8"/>
+      <stop offset=".55" stop-color="#B8C0AD"/>
+      <stop offset="1" stop-color="#8E9A83"/>
+    </linearGradient>
+    <linearGradient id="sun" x1="428" y1="177" x2="795" y2="612" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F2DDBA"/>
+      <stop offset="1" stop-color="#D2AB81"/>
+    </linearGradient>
+    <linearGradient id="chair" x1="151" y1="492" x2="564" y2="939" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#647A69"/>
+      <stop offset="1" stop-color="#344B3E"/>
+    </linearGradient>
+    <linearGradient id="seat" x1="147" y1="719" x2="550" y2="891" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7AA91"/>
+      <stop offset="1" stop-color="#737F68"/>
+    </linearGradient>
+    <linearGradient id="table" x1="611" y1="581" x2="823" y2="939" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E7DCCA"/>
+      <stop offset="1" stop-color="#BDAE99"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 523 -525 0 568 332)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF3D7" stop-opacity=".48"/>
+      <stop offset="1" stop-color="#FFF3D7" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="89" y="824" width="773" height="208" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+  <path fill="url(#wall)" d="M0 0h900v1100H0z"/>
+  <path fill="url(#glow)" d="M0 0h900v1100H0z"/>
+  <path d="M540 0h360v687H540z" fill="#F3E8D0" fill-opacity=".28"/>
+  <path d="M539 0v693m14-693v693" stroke="#F6EFDF" stroke-opacity=".38" stroke-width="3"/>
+  <path d="M559 0h341v699H559z" fill="url(#sun)" fill-opacity=".12"/>
+  <path d="m0 772 310-140 302 226 288-195v437H0V772Z" fill="#364C3D" fill-opacity=".11"/>
+  <path d="M200 932V622c0-71 57-128 128-128s128 57 128 128v310" stroke="#364B3F" stroke-width="27" stroke-linecap="round"/>
+  <path d="M178 671c0-45 37-82 82-82h151c35 0 63 28 63 63v176H178V671Z" fill="url(#chair)"/>
+  <path d="M152 807c0-44 36-80 80-80h209c49 0 88 39 88 88v61H152v-69Z" fill="url(#seat)"/>
+  <path d="M181 871v137m340-137v137" stroke="#785F48" stroke-width="17" stroke-linecap="round"/>
+  <path d="M202 878v125m297-125v125" stroke="#A88461" stroke-width="6" stroke-linecap="round"/>
+  <path d="M204 632c58 37 115 56 171 55" stroke="#B8C4B0" stroke-opacity=".38" stroke-width="3"/>
+  <path d="M670 704h116v141H670z" fill="url(#table)"/>
+  <ellipse cx="728" cy="704" rx="58" ry="20" fill="#EEE5D6"/>
+  <path d="M659 838h138v29H659z" fill="#BCA88E"/>
+  <path d="M701 658c0-15 12-27 27-27s27 12 27 27v45h-54v-45Z" fill="#B87758"/>
+  <ellipse cx="728" cy="659" rx="27" ry="8" fill="#CF946F"/>
+  <ellipse cx="728" cy="658" rx="19" ry="5" fill="#546453"/>
+  <path d="M0 1002h900v98H0z" fill="#BEB9A8" fill-opacity=".73"/>
+  <ellipse cx="466" cy="925" rx="374" ry="55" fill="#1E3328" fill-opacity=".29" filter="url(#blur)"/>
+  <circle cx="141" cy="249" r="7" fill="#F2DAB4"/>
+  <circle cx="141" cy="249" r="17" stroke="#F2DAB4" stroke-opacity=".34"/>
+</svg>

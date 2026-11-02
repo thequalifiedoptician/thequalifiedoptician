@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="720" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E6E9DF"/><stop offset="1" stop-color="#C8D0C4"/>
+    </linearGradient>
+    <linearGradient id="body" x1="196" y1="344" x2="529" y2="570" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#87927B"/><stop offset=".5" stop-color="#536953"/><stop offset="1" stop-color="#344A3D"/>
+    </linearGradient>
+    <linearGradient id="end" x1="188" y1="397" x2="271" y2="541" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C9B99E"/><stop offset="1" stop-color="#9B896F"/>
+    </linearGradient>
+    <filter id="shadow" x="100" y="596" width="524" height="132" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="24"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h720v820H0z"/>
+  <circle cx="548" cy="177" r="88" fill="#F1E1C5" fill-opacity=".68"/>
+  <path d="M0 651h720v169H0z" fill="#B9B8A8"/>
+  <ellipse cx="360" cy="641" rx="211" ry="38" fill="#2C382E" fill-opacity=".28" filter="url(#shadow)"/>
+  <path d="M197 391c0-42 34-76 76-76h174c42 0 76 34 76 76v121c0 42-34 76-76 76H273c-42 0-76-34-76-76V391Z" fill="url(#body)"/>
+  <path d="M212 389c0-32 26-58 58-58h180c32 0 58 26 58 58v124c0 32-26 58-58 58H270c-32 0-58-26-58-58V389Z" stroke="#A9B39C" stroke-opacity=".56" stroke-width="3"/>
+  <path d="M244 354v195m13-202v209m13-214v219m13-222v225m13-227v229m13-230v231m13-231v231m13-230v229m13-227v225m13-222v219m13-214v209m13-202v195m13-188v181m13-174v167m13-155v143m13-125v107" stroke="#C9CCB7" stroke-opacity=".46" stroke-width="2"/>
+  <path d="M199 399c-18 17-28 39-28 66s10 49 28 66" stroke="url(#end)" stroke-width="24" stroke-linecap="round"/>
+  <path d="M520 399c18 17 28 39 28 66s-10 49-28 66" stroke="url(#end)" stroke-width="24" stroke-linecap="round"/>
+  <circle cx="359" cy="451" r="8" fill="#E3D7BC"/>
+  <path d="M360 443v-14m-7-94c6-11 13-17 20-19m-29 17c7-8 13-13 21-15" stroke="#526952" stroke-width="3" stroke-linecap="round"/>
+  <path d="M285 600h150v23H285z" fill="#D8D3C5"/>
+  <path d="M309 623h20v65h-20zm82 0h20v65h-20z" fill="#9D9787"/>
+</svg>

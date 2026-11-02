@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 820" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="720" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E9E6DA"/><stop offset="1" stop-color="#D5D0C1"/>
+    </linearGradient>
+    <linearGradient id="bottle" x1="268" y1="343" x2="469" y2="665" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#BB8B5D"/><stop offset=".48" stop-color="#8D6041"/><stop offset="1" stop-color="#573D2F"/>
+    </linearGradient>
+    <linearGradient id="cap" x1="306" y1="196" x2="424" y2="337" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9C9A7"/><stop offset="1" stop-color="#A98C61"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(0 290 -287 0 370 400)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8DEB6" stop-opacity=".54"/><stop offset="1" stop-color="#F8DEB6" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="shadow" x="130" y="635" width="460" height="119" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse"><feGaussianBlur stdDeviation="23"/></filter>
+  </defs>
+  <path fill="url(#bg)" d="M0 0h720v820H0z"/><path fill="url(#glow)" d="M0 0h720v820H0z"/>
+  <circle cx="544" cy="180" r="89" fill="#F1DEBF" fill-opacity=".65"/>
+  <path d="M0 663h720v157H0z" fill="#BBB5A5"/>
+  <path d="M70 661h580v17H70z" fill="#F0EBDD"/>
+  <ellipse cx="360" cy="682" rx="188" ry="31" fill="#44372C" fill-opacity=".26" filter="url(#shadow)"/>
+  <rect x="330" y="261" width="60" height="93" rx="12" fill="#94734D"/>
+  <path d="M313 292h94c48 0 84 39 84 86v190c0 52-42 94-94 94h-74c-52 0-94-42-94-94V378c0-47 36-86 84-86Z" fill="url(#bottle)"/>
+  <path d="M288 359h144c27 0 48 22 48 48v156c0 42-34 76-76 76h-88c-42 0-76-34-76-76V407c0-26 21-48 48-48Z" fill="#C18D60" fill-opacity=".22"/>
+  <rect x="300" y="190" width="120" height="82" rx="9" fill="url(#cap)"/>
+  <path d="M310 202h100m-100 12h100m-100 12h100m-100 12h100" stroke="#F0E3CA" stroke-opacity=".56" stroke-width="2"/>
+  <path d="M292 430h136v101H292z" fill="#E9DDC7" fill-opacity=".89"/>
+  <path d="M313 456h94" stroke="#8B6B4E" stroke-width="2"/>
+  <path d="M341 470h38" stroke="#A38363" stroke-width="1.5"/>
+  <text x="360" y="501" fill="#655441" font-family="Georgia,serif" font-size="21" letter-spacing="3" text-anchor="middle">CEDAR</text>
+  <text x="360" y="519" fill="#796650" font-family="Arial,sans-serif" font-size="8" letter-spacing="2" text-anchor="middle">NO. 04 · 50 ML</text>
+  <path d="M272 401c11-15 21-20 31-17" stroke="#F5D6AF" stroke-opacity=".5" stroke-width="3" stroke-linecap="round"/>
+</svg>

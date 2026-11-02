@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 1100" fill="none">
+  <defs>
+    <linearGradient id="backdrop" x1="87" y1="68" x2="793" y2="1024" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D6CBB8"/>
+      <stop offset=".52" stop-color="#B29B80"/>
+      <stop offset="1" stop-color="#806D5B"/>
+    </linearGradient>
+    <linearGradient id="vessel" x1="266" y1="436" x2="595" y2="960" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#C78361"/>
+      <stop offset=".45" stop-color="#9B624D"/>
+      <stop offset="1" stop-color="#694A3D"/>
+    </linearGradient>
+    <linearGradient id="vessel-light" x1="321" y1="544" x2="431" y2="841" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E6AD82" stop-opacity=".62"/>
+      <stop offset="1" stop-color="#E6AD82" stop-opacity="0"/>
+    </linearGradient>
+    <linearGradient id="linen" x1="547" y1="596" x2="874" y2="1061" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EAE0CD"/>
+      <stop offset="1" stop-color="#BBAE98"/>
+    </linearGradient>
+    <radialGradient id="sun" cx="0" cy="0" r="1" gradientTransform="matrix(376 117 -171 550 417 266)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F0D8B5" stop-opacity=".67"/>
+      <stop offset="1" stop-color="#F0D8B5" stop-opacity="0"/>
+    </radialGradient>
+    <filter id="blur" x="121" y="830" width="754" height="222" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="28"/>
+    </filter>
+  </defs>
+  <path fill="url(#backdrop)" d="M0 0h900v1100H0z"/>
+  <path fill="url(#sun)" d="M0 0h900v1100H0z"/>
+  <path d="M0 0h185v1100H0z" fill="#453D34" fill-opacity=".1"/>
+  <path d="M145 0v1100m11-1100v1100" stroke="#F1E4D0" stroke-opacity=".18" stroke-width="2"/>
+  <circle cx="657" cy="285" r="161" fill="#E5C69F" fill-opacity=".49"/>
+  <path d="M557 513c-52-102-62-207-29-315" stroke="#53624C" stroke-width="5" stroke-linecap="round"/>
+  <path d="M541 347c-59-58-119-75-178-52 28 57 79 87 153 89" fill="#828B70"/>
+  <path d="M547 391c39-82 92-124 159-126 0 68-34 119-103 156" fill="#6E7F66"/>
+  <path d="M532 294c-12-66-1-119 35-159 34 50 38 104 11 163" fill="#C8B99B"/>
+  <path d="M551 439c-49-39-98-48-148-25 30 47 76 70 138 70" fill="#A2A187"/>
+  <path d="M559 452c48-55 98-78 151-65-22 55-66 87-131 96" fill="#BEC0A0"/>
+  <path d="M332 626c-1-22 21-40 48-40s49 18 48 40l-3 36c-2 21 21 43 39 70 32 48 50 105 53 160 4 91-50 144-137 144s-141-53-137-144c3-55 21-112 53-160 18-27 41-49 39-70l-3-36Z" fill="url(#vessel)"/>
+  <path d="M332 630c12 16 29 24 48 24s36-8 48-24" stroke="#D09B7D" stroke-width="3"/>
+  <ellipse cx="380" cy="626" rx="48" ry="15" fill="#B8775B"/>
+  <ellipse cx="380" cy="624" rx="34" ry="9" fill="#514E40"/>
+  <path d="M332 644c0-20 21-37 48-37s49 17 48 37l-3 18c-2 21 21 43 39 70 32 48 50 105 53 160 4 91-50 144-137 144s-141-53-137-144c3-55 21-112 53-160 18-27 41-49 39-70l-3-18Z" fill="url(#vessel-light)"/>
+  <path d="M289 779c13 11 27 16 41 18" stroke="#F2CCAB" stroke-opacity=".55" stroke-width="4" stroke-linecap="round"/>
+  <path d="m573 790 327-118v428H493c40-76 59-176 80-310Z" fill="url(#linen)"/>
+  <path d="M607 793c67 72 114 172 142 307m-93-326c62 74 106 183 133 326m-80-348c57 81 99 190 123 348" stroke="#9D8F7D" stroke-opacity=".28" stroke-width="3"/>
+  <path d="M0 982c190-17 368-22 533-15 133 6 255 3 367-12v145H0V982Z" fill="#8A7560" fill-opacity=".45"/>
+  <ellipse cx="500" cy="925" rx="369" ry="61" fill="#302A22" fill-opacity=".36" filter="url(#blur)"/>
+  <path d="M114 1004h786v96H114z" fill="#C4B7A2"/>
+</svg>
