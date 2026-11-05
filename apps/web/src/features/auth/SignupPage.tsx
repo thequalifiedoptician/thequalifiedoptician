@@ -102,11 +102,14 @@ export default function SignupPage() {
     try {
       const client = await getSupabaseClient();
       const result = await signUpWithEmail(client, fullName, email, password);
-      setSuccessMessage(
-        result.session
-          ? 'Your account is ready. Taking you to AlSera…'
-          : `Account created. Check ${email.trim()} for a verification link to finish setting up your account.`,
-      );
+      if (result.session) {
+        setSuccessMessage('Your account is ready. Taking you to AlSera…');
+      } else {
+        navigate(AUTH_ROUTES.verificationPending, {
+          replace: true,
+          state: { email: email.trim() },
+        });
+      }
     } catch (error) {
       setErrors({ form: toAuthServiceError(error).message });
     } finally {

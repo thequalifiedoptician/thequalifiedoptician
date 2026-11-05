@@ -25,6 +25,9 @@ export type AuthErrorCode =
   | 'recovery-link-expired'
   | 'recovery-session-missing'
   | 'password-reused'
+  | 'verification-link-expired'
+  | 'verification-link-invalid'
+  | 'email-already-verified'
   | 'network'
   | 'session-missing'
   | 'unknown';

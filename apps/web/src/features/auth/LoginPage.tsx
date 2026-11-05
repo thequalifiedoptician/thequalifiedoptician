@@ -30,6 +30,7 @@ type LoginErrors = {
 
 type LoginNavigationState = {
   from?: unknown;
+  oauthError?: unknown;
 };
 
 export default function LoginPage() {
@@ -45,14 +46,22 @@ export default function LoginPage() {
   const [oauthReturnTo] = useState(() =>
     typeof window === 'undefined' ? null : window.sessionStorage.getItem(AUTH_OAUTH_RETURN_TO_KEY),
   );
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, status: authStatus, error: authError } = useAuth();
   const location = useLocation();
   const navigate = useNavigate();
   const navigationState = location.state as LoginNavigationState | null;
   const redirectTo = safeReturnPath(navigationState?.from ?? oauthReturnTo);
+  const oauthCallbackError = getOAuthCallbackError(location.search, location.hash);
+  const savedOAuthCallbackError =
+    typeof navigationState?.oauthError === 'string' ? navigationState.oauthError : undefined;
   const visibleSuccessMessage = isAuthenticated
     ? 'You are signed in. Taking you back now.'
     : successMessage;
+  const visibleFormError =
+    savedOAuthCallbackError ??
+    oauthCallbackError ??
+    errors.form ??
+    (authStatus === 'error' ? authError : undefined);
 
   useEffect(() => {
     if (!isAuthenticated) {
@@ -71,6 +80,21 @@ export default function LoginPage() {
     };
   }, [isAuthenticated, navigate, redirectTo]);
 
+  useEffect(() => {
+    if (!oauthCallbackError) {
+      return;
+    }
+
+    window.sessionStorage.removeItem(AUTH_OAUTH_RETURN_TO_KEY);
+    navigate(location.pathname, {
+      replace: true,
+      state: {
+        from: navigationState?.from,
+        oauthError: oauthCallbackError,
+      },
+    });
+  }, [location.pathname, navigate, navigationState?.from, oauthCallbackError]);
+
   useEffect(
     () => () => {
       if (successTimer.current) {
@@ -82,6 +106,7 @@ export default function LoginPage() {
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    clearOAuthCallbackError();
     setSuccessMessage('');
     setErrors({});
 
@@ -120,6 +145,7 @@ export default function LoginPage() {
   }
 
   async function handleProviderSignIn(provider: 'google' | 'github') {
+    clearOAuthCallbackError();
     setErrors({});
     setSuccessMessage('');
     setActiveProvider(provider);
@@ -129,9 +155,26 @@ export default function LoginPage() {
       await signInWithProvider(client, provider, rememberMe, redirectTo);
     } catch (error) {
       window.sessionStorage.removeItem(AUTH_OAUTH_RETURN_TO_KEY);
-      setErrors({ form: toAuthServiceError(error).message });
+      const authError = toAuthServiceError(error);
+      setErrors({
+        form:
+          authError.code === 'unknown'
+            ? `We couldn’t connect to ${provider === 'google' ? 'Google' : 'GitHub'}. Check the provider configuration and try again.`
+            : authError.message,
+      });
       setActiveProvider(null);
     }
+  }
+
+  function clearOAuthCallbackError() {
+    if (!oauthCallbackError && !savedOAuthCallbackError) {
+      return;
+    }
+
+    navigate(location.pathname, {
+      replace: true,
+      state: { from: navigationState?.from },
+    });
   }
 
   return (
@@ -188,6 +231,7 @@ export default function LoginPage() {
             required
             value={email}
             onChange={(event) => {
+              clearOAuthCallbackError();
               setEmail(event.target.value);
               setErrors((current) => ({ ...current, email: undefined, form: undefined }));
             }}
@@ -209,6 +253,7 @@ export default function LoginPage() {
             required
             value={password}
             onChange={(event) => {
+              clearOAuthCallbackError();
               setPassword(event.target.value);
               setErrors((current) => ({ ...current, password: undefined, form: undefined }));
             }}
@@ -232,7 +277,7 @@ export default function LoginPage() {
             </Link>
           </div>
 
-          {errors.form && <ErrorMessage>{errors.form}</ErrorMessage>}
+          {visibleFormError && <ErrorMessage>{visibleFormError}</ErrorMessage>}
           <LoadingButton
             className="auth-login-submit"
             type="submit"
@@ -279,4 +324,22 @@ function safeReturnPath(value: unknown): string {
   }
 
   return value;
+}
+
+function getOAuthCallbackError(search: string, hash: string): string | undefined {
+  const query = new URLSearchParams(search);
+  const fragment = new URLSearchParams(hash.replace(/^#/u, ''));
+  const errorCode =
+    query.get('error_code') ??
+    query.get('error') ??
+    fragment.get('error_code') ??
+    fragment.get('error');
+
+  if (!errorCode) {
+    return undefined;
+  }
+
+  return errorCode === 'access_denied' || errorCode === 'user_cancelled'
+    ? 'Sign-in was cancelled. You can try again whenever you’re ready.'
+    : 'We couldn’t complete social sign-in. Please try again or use your email and password.';
 }

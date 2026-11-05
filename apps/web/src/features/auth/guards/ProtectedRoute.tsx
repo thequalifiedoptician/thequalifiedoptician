@@ -4,7 +4,7 @@ import { useAuth } from '../hooks/useAuth';
 import AuthRouteStatus from './AuthRouteStatus';
 
 export default function ProtectedRoute() {
-  const { status, isAuthenticated } = useAuth();
+  const { status, isAuthenticated, user } = useAuth();
   const location = useLocation();
 
   if (status === 'initializing') {
@@ -23,6 +23,10 @@ export default function ProtectedRoute() {
         replace
       />
     );
+  }
+
+  if (!user?.email_confirmed_at) {
+    return <Navigate to={AUTH_ROUTES.verificationPending} state={{ email: user?.email }} replace />;
   }
 
   return <Outlet />;

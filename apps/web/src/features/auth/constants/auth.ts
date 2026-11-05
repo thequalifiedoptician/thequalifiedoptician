@@ -3,6 +3,11 @@ export const AUTH_ROUTES = {
   signup: '/auth/signup',
   forgotPassword: '/auth/forgot-password',
   resetPassword: '/auth/reset-password',
+  verificationPending: '/auth/verify-email/pending',
+  verificationCallback: '/auth/verify-email',
+  verificationSuccess: '/auth/verify-email/success',
+  verificationFailed: '/auth/verify-email/failed',
+  verificationExpired: '/auth/verify-email/expired',
   account: '/account',
   foundationPreview: '/auth/foundation',
 } as const;

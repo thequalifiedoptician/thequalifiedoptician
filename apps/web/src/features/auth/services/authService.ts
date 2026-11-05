@@ -39,7 +39,7 @@ export async function signUpWithEmail(
   email: string,
   password: string,
 ) {
-  const emailRedirectTo = new URL('/auth/login', window.location.origin).toString();
+  const emailRedirectTo = getEmailVerificationRedirectUrl();
   const { data, error } = await client.auth.signUp({
     email: email.trim(),
     password,
@@ -60,6 +60,27 @@ export async function signUpWithEmail(
   return { user: data.user, session: data.session };
 }
 
+export async function resendSignupVerification(
+  client: SupabaseClient<Database>,
+  email: string,
+): Promise<void> {
+  const { error } = await client.auth.resend({
+    type: 'signup',
+    email: email.trim(),
+    options: { emailRedirectTo: getEmailVerificationRedirectUrl() },
+  });
+
+  if (error) {
+    throw toAuthServiceError(error);
+  }
+}
+
+function getEmailVerificationRedirectUrl(): string {
+  const redirectTo = new URL(AUTH_ROUTES.verificationCallback, window.location.origin);
+  redirectTo.searchParams.set('flow', 'email-verification');
+  return redirectTo.toString();
+}
+
 export async function signInWithProvider(
   client: SupabaseClient<Database>,
   provider: 'google' | 'github',
@@ -69,10 +90,13 @@ export async function signInWithProvider(
   setSupabaseAuthPersistence(rememberMe);
   window.sessionStorage.setItem(AUTH_OAUTH_RETURN_TO_KEY, returnTo);
 
-  const redirectTo = new URL('/auth/login', window.location.origin).toString();
+  const redirectTo = new URL(AUTH_ROUTES.login, window.location.origin).toString();
   const { error } = await client.auth.signInWithOAuth({
     provider,
-    options: { redirectTo },
+    options: {
+      redirectTo,
+      skipBrowserRedirect: false,
+    },
   });
 
   if (error) {

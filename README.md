@@ -29,6 +29,43 @@ Authentication’s allowed redirect URLs. For local Vite development, allow
 `http://localhost:5173/auth/reset-password?flow=password-reset`; add the corresponding
 production URL for the deployed frontend origin.
 
+### Supabase email verification
+
+Add `/auth/verify-email?flow=email-verification` to Supabase Authentication’s allowed redirect URLs.
+For local Vite development, allow
+`http://localhost:5173/auth/verify-email?flow=email-verification`; add the corresponding production
+URL for the deployed frontend origin. The confirmation email template must use Supabase’s
+confirmation URL so the auth client can validate and exchange the link.
+
+### Supabase Google and GitHub OAuth
+
+Enable Google and GitHub under Supabase Authentication providers and add each provider’s OAuth
+client credentials in the Supabase dashboard; never put provider secrets in `VITE_*` variables.
+Set the Supabase Site URL to the frontend origin and add `<frontend-origin>/auth/login` to its
+allowed redirect URLs. In each provider’s OAuth application, use the Supabase project callback URI
+shown by the provider configuration, typically
+`https://<project-ref>.supabase.co/auth/v1/callback`.
+
+Apply the migration in `supabase/migrations` before enabling OAuth so the auth-user trigger creates
+one `public.profiles` row per user. The table’s primary key is the auth user ID and RLS only permits
+reading the signed-in user’s own profile.
+
+### Supabase product catalog
+
+Apply the product catalog migration in `supabase/migrations` after the profile migration. The
+schema, relationships, access model, and manual verification checklist are documented in
+[the product catalog database guide](docs/database/product-catalog.md). Catalog write access is
+restricted to authenticated users with a trusted `app_metadata.role = "admin"` claim; never set
+that claim from client-controlled user metadata.
+
+### Admin product management
+
+Apply `20261105160000_configure_product_image_storage.sql` after the product catalog migration.
+It configures the public product image bucket with admin-only writes and installs the transactional
+product save RPC. The admin workspace is available at `/admin/products` only to confirmed users
+with a trusted admin claim. Setup and manual verification steps are in
+[the admin product management guide](docs/database/admin-product-management.md).
+
 ## Quality checks
 
 - `npm run lint`

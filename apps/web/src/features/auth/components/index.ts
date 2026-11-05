@@ -16,3 +16,4 @@ export {
 } from './AuthPrimitives';
 export { AuthInputSkeleton, AuthSkeleton } from './AuthInputSkeleton';
 export { PasswordStrengthIndicator } from './PasswordStrengthIndicator';
+export { EmailVerificationStatus, type VerificationStatus } from './EmailVerificationStatus';
