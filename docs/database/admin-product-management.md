@@ -30,8 +30,10 @@ admin-claim check enforce authorization.
 - `features/admin/catalog/AdminProductPage.tsx`: dashboard, search/filter,
   create/edit form, image ordering and upload, variant/inventory editor,
   preview, and delete confirmation.
+- `features/admin/catalog/CatalogTaxonomyPanel.tsx`: category and brand
+  search/filter, create/edit, storefront visibility, and deletion confirmation.
 - `features/admin/catalog/productService.ts`: typed Supabase reads, duplicate
-  checks, storage upload/cleanup, and product deletion.
+  checks, storage upload/cleanup, and product/category/brand operations.
 - `features/admin/catalog/admin-products.css`: responsive, scoped admin styles.
 - `features/auth/types/database.ts`: generated-style catalog table/RPC types.
 
@@ -56,10 +58,14 @@ admin-claim check enforce authorization.
 8. Preview products and verify their images, descriptions, status, variants,
    and inventory. Confirm delete requires explicit confirmation and cascades
    records and uploaded image objects.
-9. In Supabase, verify non-admin clients cannot write catalog records or
+9. In the Categories and Brands catalog views, create and edit entries,
+   search/filter by visibility, hide and restore entries, and delete an entry
+   with linked products. Confirm linked products remain and their deleted
+   category/brand assignment is cleared.
+10. In Supabase, verify non-admin clients cannot write catalog records or
    upload/delete product images, and anonymous users can only read public
    bucket images and active catalog data.
-10. Check the workspace at mobile, tablet, laptop, and desktop sizes and test
+11. Check the workspace at mobile, tablet, laptop, and desktop sizes and test
     keyboard access for dialogs, form controls, upload, ordering, and actions.
 
 The workspace cannot complete live Supabase tests until the migrations are

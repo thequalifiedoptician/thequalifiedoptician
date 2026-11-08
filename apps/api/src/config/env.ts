@@ -29,4 +29,8 @@ function parseOrigins(value: string | undefined): string[] {
 export const env = {
   port: parsePort(process.env.PORT),
   corsOrigins: parseOrigins(process.env.CORS_ORIGIN),
+  supabaseUrl: process.env.SUPABASE_URL?.trim() ?? '',
+  supabaseAnonKey: process.env.SUPABASE_ANON_KEY?.trim() ?? '',
+  supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? '',
+  webAppUrl: process.env.WEB_APP_URL?.trim() ?? '',
 };

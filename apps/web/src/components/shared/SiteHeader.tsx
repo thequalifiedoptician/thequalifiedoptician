@@ -1,20 +1,37 @@
 import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
-import { Bell, Heart, Menu, Search, ShoppingBag, X } from 'lucide-react';
+import {
+  Bell,
+  ChevronDown,
+  Heart,
+  House,
+  Mail,
+  Menu,
+  ShoppingBag,
+  Sparkles,
+  Store,
+  Tag,
+  UserRound,
+  X,
+} from 'lucide-react';
 import { createPortal } from 'react-dom';
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
-import { Link, NavLink, useLocation, useNavigate } from 'react-router-dom';
+import { Link, NavLink, useLocation } from 'react-router-dom';
+import GlobalSearch from '@/components/shared/GlobalSearch';
 import { AUTH_ROUTES } from '@/features/auth/constants/auth';
 import { useAuth } from '@/features/auth/hooks/useAuth';
 import { toAuthServiceError } from '@/features/auth/utils/authErrors';
 import { getAuthRedirectState } from '@/features/auth/utils/authNavigation';
+import { useCart } from '@/features/cart/useCart';
+import { useWishlist } from '@/features/wishlist/useWishlist';
+
+const MotionLink = motion.create(Link);
 
 const navigationItems = [
-  { label: 'Home', to: '/' },
-  { label: 'Shop', to: '/shop' },
-  { label: 'Categories', to: '/categories' },
-  { label: 'Deals', to: '/deals' },
-  { label: 'About', to: '/about' },
-  { label: 'Contact', to: '/contact' },
+  { label: 'Home', to: '/', Icon: House },
+  { label: 'Shop', to: '/shop', Icon: Store },
+  { label: 'Deals', to: '/deals', Icon: Tag },
+  { label: 'About', to: '/about', Icon: Sparkles },
+  { label: 'Contact', to: '/contact', Icon: Mail },
 ];
 
 const iconActions = [
@@ -33,16 +50,9 @@ export default function SiteHeader() {
   const drawerRef = useRef<HTMLElement>(null);
   const prefersReducedMotion = useReducedMotion();
   const { isAuthenticated, isLoading, user, signOut } = useAuth();
+  const { productIds: wishlistProductIds } = useWishlist();
+  const { itemCount } = useCart();
   const location = useLocation();
-  const navigate = useNavigate();
-
-  const handleAccountAction = () => {
-    if (!isAuthenticated) {
-      navigate(AUTH_ROUTES.login, {
-        state: getAuthRedirectState(location),
-      });
-    }
-  };
 
   const handleSignOut = async () => {
     setAuthActionError('');
@@ -156,49 +166,66 @@ export default function SiteHeader() {
             </span>
           </Link>
 
-          <div className="header-search">
-            <motion.span
-              className="search-icon"
-              aria-hidden="true"
-              whileHover={prefersReducedMotion ? undefined : { rotate: -10, scale: 1.08 }}
-              transition={{ type: 'spring', stiffness: 340, damping: 18 }}
-            >
-              <Search />
-            </motion.span>
-            <input
-              aria-label="Search products"
-              type="search"
-              placeholder="Search considered essentials"
-            />
-            <kbd className="search-shortcut" aria-hidden="true">
-              ⌘ K
-            </kbd>
-          </div>
+          <GlobalSearch key={`${location.pathname}${location.search}`} className="header-search" />
 
           <div className="header-actions" aria-label="Quick links">
-            {iconActions.map(({ label, Icon }) => (
-              <motion.button
-                className="icon-button"
-                type="button"
-                aria-label={label}
-                key={label}
-                onClick={
-                  label === 'Wishlist' || label === 'Shopping cart'
-                    ? handleAccountAction
-                    : undefined
-                }
-                whileHover={prefersReducedMotion ? undefined : { y: -2, scale: 1.06 }}
-                whileTap={prefersReducedMotion ? undefined : { scale: 0.92 }}
-                transition={{ type: 'spring', stiffness: 380, damping: 22 }}
-              >
-                <Icon aria-hidden="true" />
-              </motion.button>
-            ))}
+            {iconActions.map(({ label, Icon }) =>
+              label === 'Wishlist' ? (
+                <Link
+                  className="icon-button wishlist-header-link"
+                  aria-label={`Wishlist${wishlistProductIds.size ? `, ${wishlistProductIds.size} saved` : ''}`}
+                  key={label}
+                  to="/wishlist"
+                >
+                  <Icon aria-hidden="true" />
+                  {wishlistProductIds.size > 0 && (
+                    <span className="wishlist-header-count" aria-hidden="true">
+                      {wishlistProductIds.size > 9 ? '9+' : wishlistProductIds.size}
+                    </span>
+                  )}
+                </Link>
+              ) : label === 'Shopping cart' ? (
+                <MotionLink
+                  className="icon-button cart-header-link"
+                  aria-label={`Shopping cart${itemCount ? `, ${itemCount} items` : ''}`}
+                  key={label}
+                  to="/cart"
+                  whileHover={prefersReducedMotion ? undefined : { y: -2, scale: 1.06 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.92 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+                >
+                  <Icon aria-hidden="true" />
+                  {itemCount > 0 && (
+                    <motion.span
+                      className="cart-header-count"
+                      key={itemCount}
+                      initial={prefersReducedMotion ? false : { scale: 0.7 }}
+                      animate={{ scale: 1 }}
+                      aria-hidden="true"
+                    >
+                      {itemCount > 99 ? '99+' : itemCount}
+                    </motion.span>
+                  )}
+                </MotionLink>
+              ) : (
+                <motion.button
+                  className="icon-button"
+                  type="button"
+                  aria-label={label}
+                  key={label}
+                  whileHover={prefersReducedMotion ? undefined : { y: -2, scale: 1.06 }}
+                  whileTap={prefersReducedMotion ? undefined : { scale: 0.92 }}
+                  transition={{ type: 'spring', stiffness: 380, damping: 22 }}
+                >
+                  <Icon aria-hidden="true" />
+                </motion.button>
+              ),
+            )}
           </div>
         </div>
 
         <nav className="desktop-navigation" aria-label="Main navigation">
-          {navigationItems.map(({ label, to }) => (
+          {navigationItems.map(({ label, to, Icon }) => (
             <NavLink
               className={({ isActive }) => `navigation-link${isActive ? ' is-active' : ''}`}
               end={to === '/'}
@@ -207,7 +234,8 @@ export default function SiteHeader() {
             >
               {({ isActive }) => (
                 <>
-                  {label}
+                  <Icon className="navigation-item-icon" aria-hidden="true" />
+                  <span>{label}</span>
                   {isActive && (
                     <motion.span
                       className="navigation-indicator"
@@ -222,20 +250,31 @@ export default function SiteHeader() {
           <span className="navigation-note">A considered point of view</span>
           <div className="desktop-auth-actions" aria-label="Account actions">
             {isLoading ? null : isAuthenticated ? (
-              <>
-                <span className="header-user-email" title={user?.email}>
-                  {user?.email ?? 'Signed in'}
-                </span>
-                <button
-                  className="header-auth-link header-auth-signout"
-                  type="button"
-                  onClick={() => void handleSignOut()}
-                  disabled={isSigningOut}
-                  aria-busy={isSigningOut}
-                >
-                  {isSigningOut ? 'Signing out…' : 'Sign out'}
-                </button>
-              </>
+              <details className="header-account-menu">
+                <summary className="header-account-trigger" aria-label="Open account menu">
+                  <span className="header-account-avatar" aria-hidden="true">
+                    {user?.email?.charAt(0).toUpperCase() ?? <UserRound aria-hidden="true" />}
+                  </span>
+                  <span>Account</span>
+                  <ChevronDown className="header-account-chevron" aria-hidden="true" />
+                </summary>
+                <div className="header-account-popover">
+                  <span className="header-account-eyebrow">SIGNED IN AS</span>
+                  <span className="header-account-email">{user?.email ?? 'AlSera customer'}</span>
+                  <NavLink className="header-account-orders" to="/account/orders">
+                    My orders <span aria-hidden="true">→</span>
+                  </NavLink>
+                  <button
+                    className="header-account-signout"
+                    type="button"
+                    onClick={() => void handleSignOut()}
+                    disabled={isSigningOut}
+                    aria-busy={isSigningOut}
+                  >
+                    {isSigningOut ? 'Signing out…' : 'Sign out'}
+                  </button>
+                </div>
+              </details>
             ) : (
               <>
                 <Link
@@ -258,17 +297,10 @@ export default function SiteHeader() {
           </p>
         )}
 
-        <div className="mobile-search header-search">
-          <Search aria-hidden="true" />
-          <input
-            aria-label="Search products"
-            type="search"
-            placeholder="Search considered essentials"
-          />
-          <kbd className="search-shortcut" aria-hidden="true">
-            ⌘ K
-          </kbd>
-        </div>
+        <GlobalSearch
+          key={`${location.pathname}${location.search}`}
+          className="mobile-search header-search"
+        />
       </div>
 
       {createPortal(
@@ -316,7 +348,7 @@ export default function SiteHeader() {
                   </motion.button>
                 </div>
                 <nav className="mobile-navigation-links" aria-label="Main navigation">
-                  {navigationItems.map(({ label, to }, index) => (
+                  {navigationItems.map(({ label, to, Icon }, index) => (
                     <motion.div
                       key={label}
                       initial={{ opacity: 0, x: 12 }}
@@ -334,7 +366,10 @@ export default function SiteHeader() {
                         to={to}
                         onClick={closeMenu}
                       >
-                        <span>{label}</span>
+                        <span className="mobile-link-label">
+                          <Icon aria-hidden="true" />
+                          <span>{label}</span>
+                        </span>
                         <span className="mobile-link-arrow" aria-hidden="true">
                           →
                         </span>
@@ -348,6 +383,13 @@ export default function SiteHeader() {
                       <p className="mobile-auth-user">
                         Signed in as <strong>{user?.email ?? 'AlSera customer'}</strong>
                       </p>
+                      <Link
+                        className="mobile-auth-button mobile-auth-orders"
+                        to="/account/orders"
+                        onClick={() => setIsMenuOpen(false)}
+                      >
+                        My orders
+                      </Link>
                       <button
                         className="mobile-auth-button mobile-auth-signout"
                         type="button"

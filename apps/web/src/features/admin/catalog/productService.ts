@@ -62,6 +62,26 @@ export type ProductListItem = CatalogProduct & {
   availableQuantity: number;
 };
 
+export type CategoryEditorInput = {
+  id: string | null;
+  parentId: string | null;
+  name: string;
+  slug: string;
+  description: string;
+  imageUrl: string;
+  isActive: boolean;
+  sortOrder: number;
+};
+
+export type BrandEditorInput = {
+  id: string | null;
+  name: string;
+  slug: string;
+  description: string;
+  logoUrl: string;
+  isActive: boolean;
+};
+
 const PRODUCT_IMAGE_BUCKET = 'product-images';
 const MAX_IMAGE_BYTES = 10 * 1024 * 1024;
 const ALLOWED_IMAGE_TYPES = new Set(['image/jpeg', 'image/png', 'image/webp', 'image/avif']);
@@ -80,8 +100,87 @@ function throwOnError(error: { message: string } | null): void {
   if (error.message.includes('product_variants_sku_lower_unique')) {
     throw new Error('Each variant must have a unique SKU.');
   }
+  if (error.message.includes('categories_slug_lower_unique')) {
+    throw new Error('That category URL slug is already in use.');
+  }
+  if (error.message.includes('brands_slug_lower_unique')) {
+    throw new Error('That brand URL slug is already in use.');
+  }
 
   throw new Error(error.message);
+}
+
+export async function saveCategory(
+  client: SupabaseClient<Database>,
+  input: CategoryEditorInput,
+): Promise<void> {
+  const payload = {
+    parent_id: input.parentId || null,
+    name: input.name.trim(),
+    slug: input.slug.trim().toLowerCase(),
+    description: input.description.trim() || null,
+    image_url: input.imageUrl.trim() || null,
+    is_active: input.isActive,
+    sort_order: input.sortOrder,
+  };
+  const result = input.id
+    ? await client.from('categories').update(payload).eq('id', input.id)
+    : await client.from('categories').insert(payload);
+  throwOnError(result.error);
+}
+
+export async function saveBrand(
+  client: SupabaseClient<Database>,
+  input: BrandEditorInput,
+): Promise<void> {
+  const payload = {
+    name: input.name.trim(),
+    slug: input.slug.trim().toLowerCase(),
+    description: input.description.trim() || null,
+    logo_url: input.logoUrl.trim() || null,
+    is_active: input.isActive,
+  };
+  const result = input.id
+    ? await client.from('brands').update(payload).eq('id', input.id)
+    : await client.from('brands').insert(payload);
+  throwOnError(result.error);
+}
+
+export async function setCategoryActive(
+  client: SupabaseClient<Database>,
+  categoryId: string,
+  isActive: boolean,
+): Promise<void> {
+  const { error } = await client
+    .from('categories')
+    .update({ is_active: isActive })
+    .eq('id', categoryId);
+  throwOnError(error);
+}
+
+export async function setBrandActive(
+  client: SupabaseClient<Database>,
+  brandId: string,
+  isActive: boolean,
+): Promise<void> {
+  const { error } = await client.from('brands').update({ is_active: isActive }).eq('id', brandId);
+  throwOnError(error);
+}
+
+export async function deleteCategory(
+  client: SupabaseClient<Database>,
+  categoryId: string,
+): Promise<void> {
+  const { error } = await client.from('categories').delete().eq('id', categoryId);
+  throwOnError(error);
+}
+
+export async function deleteBrand(
+  client: SupabaseClient<Database>,
+  brandId: string,
+): Promise<void> {
+  const { error } = await client.from('brands').delete().eq('id', brandId);
+  throwOnError(error);
 }
 
 function requireData<T>(data: T | null, message: string): T {

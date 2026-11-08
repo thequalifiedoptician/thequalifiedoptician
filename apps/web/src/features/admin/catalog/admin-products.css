@@ -1705,3 +1705,369 @@
     animation-duration: 2.5s;
   }
 }
+
+.admin-catalog-nav {
+  display: flex;
+  gap: 7px;
+  margin: -10px 0 28px;
+  padding: 6px;
+  border: 1px solid #e8e8df;
+  border-radius: 14px;
+  background: rgb(251 250 246 / 78%);
+}
+
+.admin-catalog-nav button {
+  display: inline-flex;
+  min-height: 41px;
+  align-items: center;
+  gap: 9px;
+  padding: 0 15px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  background: transparent;
+  color: #647168;
+  font: inherit;
+  font-size: 13px;
+  font-weight: 650;
+  cursor: pointer;
+  transition:
+    background 160ms ease,
+    color 160ms ease,
+    border-color 160ms ease;
+}
+
+.admin-catalog-nav button:hover {
+  color: #34584b;
+}
+
+.admin-catalog-nav button.is-active {
+  border-color: #e4e8df;
+  background: #fff;
+  color: #34584b;
+  box-shadow: 0 3px 9px rgb(34 53 42 / 5%);
+}
+
+.admin-catalog-nav button span {
+  display: grid;
+  min-width: 22px;
+  height: 22px;
+  place-items: center;
+  padding-inline: 5px;
+  border-radius: 7px;
+  background: #f0f2ec;
+  color: #78847a;
+  font-size: 10px;
+}
+
+.catalog-taxonomy-header {
+  align-items: center;
+}
+
+.catalog-taxonomy-tools {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 18px 22px 0;
+}
+
+.catalog-taxonomy-tools .admin-search {
+  width: min(100%, 300px);
+}
+
+.catalog-taxonomy-tools .admin-select-wrap {
+  width: 155px;
+}
+
+.catalog-taxonomy-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+  gap: 14px;
+  padding: 22px;
+}
+
+.catalog-taxonomy-card {
+  min-width: 0;
+  padding: 18px;
+  border: 1px solid #e9e9e1;
+  border-radius: 14px;
+  background: #fff;
+  transition:
+    border-color 160ms ease,
+    transform 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.catalog-taxonomy-card:hover {
+  transform: translateY(-2px);
+  border-color: #d3ddd2;
+  box-shadow: 0 9px 24px rgb(33 54 41 / 6%);
+}
+
+.catalog-taxonomy-card-top,
+.catalog-taxonomy-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.catalog-taxonomy-icon {
+  display: grid;
+  width: 43px;
+  height: 43px;
+  overflow: hidden;
+  place-items: center;
+  border-radius: 12px;
+  background: #f0f3ed;
+  color: #5c7664;
+}
+
+.catalog-taxonomy-icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.catalog-taxonomy-status {
+  padding: 5px 9px;
+  border-radius: 99px;
+  background: #f2f1ed;
+  color: #83877e;
+  font-size: 10px;
+  font-weight: 700;
+}
+
+.catalog-taxonomy-status.is-active {
+  background: #e9f2ea;
+  color: #4a7457;
+}
+
+.catalog-taxonomy-card h3 {
+  overflow: hidden;
+  margin: 15px 0 4px;
+  color: #33453a;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 19px;
+  font-weight: 500;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catalog-taxonomy-slug,
+.catalog-taxonomy-description {
+  overflow: hidden;
+  margin: 0;
+  color: #828b82;
+  font-size: 11px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.catalog-taxonomy-description {
+  min-height: 17px;
+  margin-top: 9px;
+}
+
+.catalog-taxonomy-card-footer {
+  margin-top: 17px;
+  padding-top: 13px;
+  border-top: 1px solid #f0f0eb;
+}
+
+.catalog-taxonomy-card-footer > span {
+  color: #7d877e;
+  font-size: 11px;
+}
+
+.catalog-taxonomy-dialog {
+  box-sizing: border-box;
+  width: min(590px, calc(100vw - 32px));
+  max-width: calc(100vw - 32px);
+  max-height: min(90vh, 850px);
+  overflow: auto;
+  margin: auto;
+  padding: 0;
+  border: 1px solid rgb(255 255 255 / 70%);
+  border-radius: 19px;
+  background: #fbfaf6;
+  color: #23332c;
+  box-shadow: 0 28px 90px rgb(16 28 20 / 28%);
+}
+
+.catalog-taxonomy-dialog form {
+  min-width: 0;
+}
+
+.catalog-taxonomy-dialog .admin-editor-header > div {
+  min-width: 0;
+}
+
+.catalog-taxonomy-dialog .admin-editor-header > div > p:last-child {
+  line-height: 1.55;
+}
+
+.catalog-taxonomy-dialog::backdrop {
+  background: rgb(22 31 26 / 48%);
+  backdrop-filter: blur(7px);
+}
+
+.catalog-taxonomy-dialog .admin-editor-header {
+  position: sticky;
+}
+
+.catalog-taxonomy-dialog .admin-editor-header h2,
+.catalog-taxonomy-dialog .admin-confirm-dialog h2 {
+  margin: 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 29px;
+  font-weight: 500;
+  letter-spacing: -0.8px;
+}
+
+.catalog-taxonomy-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 15px;
+  padding: 23px 29px;
+}
+
+.catalog-taxonomy-form .admin-field--wide {
+  grid-column: 1 / -1;
+}
+
+.admin-taxonomy-active {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #526259;
+  font-size: 12px;
+}
+
+.admin-taxonomy-active input {
+  width: 16px;
+  height: 16px;
+  accent-color: #34584b;
+}
+
+.catalog-taxonomy-dialog .admin-editor-footer {
+  position: sticky;
+  bottom: 0;
+  display: flex;
+  min-height: 76px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  padding: 12px 29px;
+  border-top: 1px solid #ebeae2;
+  background: rgb(251 250 246 / 96%);
+}
+
+.catalog-taxonomy-dialog .admin-editor-footer p {
+  margin: 0;
+  color: #8a9189;
+  font-size: 10px;
+}
+
+.catalog-taxonomy-dialog .admin-editor-footer > div {
+  display: flex;
+  gap: 9px;
+}
+
+.catalog-taxonomy-dialog .admin-confirm-dialog {
+  padding: 29px;
+}
+
+.catalog-taxonomy-dialog .admin-confirm-dialog > .admin-modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.catalog-taxonomy-dialog .admin-confirm-dialog .admin-eyebrow {
+  margin: 18px 0 9px;
+}
+
+.catalog-taxonomy-dialog .admin-confirm-dialog > p:not(.admin-eyebrow) {
+  color: #778177;
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .admin-catalog-nav {
+    gap: 2px;
+    margin-bottom: 20px;
+  }
+
+  .admin-catalog-nav button {
+    flex: 1;
+    justify-content: center;
+    gap: 5px;
+    padding-inline: 7px;
+    font-size: 11px;
+  }
+
+  .catalog-taxonomy-header {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .catalog-taxonomy-header .admin-primary-button {
+    width: 100%;
+  }
+
+  .catalog-taxonomy-tools {
+    flex-direction: column;
+    padding: 15px 14px 0;
+  }
+
+  .catalog-taxonomy-tools .admin-search,
+  .catalog-taxonomy-tools .admin-select-wrap {
+    width: 100%;
+  }
+
+  .catalog-taxonomy-grid {
+    grid-template-columns: 1fr;
+    padding: 14px;
+  }
+
+  .catalog-taxonomy-form {
+    grid-template-columns: 1fr;
+    padding: 18px;
+  }
+
+  .catalog-taxonomy-form .admin-field--wide {
+    grid-column: auto;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-header {
+    padding: 19px 18px 16px;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-header h2 {
+    font-size: 25px;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-header > div > p:last-child {
+    max-width: 250px;
+    font-size: 11px;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-footer {
+    padding: 10px 15px;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-footer p {
+    display: none;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-footer > div {
+    width: 100%;
+  }
+
+  .catalog-taxonomy-dialog .admin-editor-footer button {
+    min-width: 0;
+    flex: 1;
+    padding-inline: 9px;
+  }
+}

@@ -28,6 +28,7 @@ import {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { getSupabaseClient } from '@/lib/supabase';
+import CatalogTaxonomyPanel from './CatalogTaxonomyPanel';
 import {
   deleteProduct,
   loadProductDashboard,
@@ -128,6 +129,7 @@ export default function AdminProductPage() {
   const [preview, setPreview] = useState<ProductDetails | null>(null);
   const [pendingDelete, setPendingDelete] = useState<CatalogProduct | null>(null);
   const [isDeleting, setIsDeleting] = useState(false);
+  const [catalogView, setCatalogView] = useState<'products' | 'categories' | 'brands'>('products');
 
   const refresh = useCallback(async () => {
     setIsLoading(true);
@@ -269,6 +271,12 @@ export default function AdminProductPage() {
         </Link>
         <div className="admin-topbar-right">
           <span className="admin-console-label">ADMIN CONSOLE</span>
+          <Link className="admin-back-link" to="/admin/homepage">
+            Homepage studio
+          </Link>
+          <Link className="admin-back-link" to="/admin/orders">
+            Orders
+          </Link>
           <Link className="admin-back-link" to="/">
             <ArrowLeft size={16} aria-hidden="true" />
             Storefront
@@ -287,16 +295,52 @@ export default function AdminProductPage() {
             <p className="admin-eyebrow">
               <Sparkles size={14} aria-hidden="true" /> CATALOG MANAGEMENT
             </p>
-            <h1>Products</h1>
+            <h1>
+              {catalogView === 'products'
+                ? 'Products'
+                : catalogView === 'categories'
+                  ? 'Categories'
+                  : 'Brands'}
+            </h1>
             <p className="admin-heading-copy">
-              Curate the collection, keep details polished, and stay close to inventory.
+              {catalogView === 'products'
+                ? 'Curate the collection, keep details polished, and stay close to inventory.'
+                : catalogView === 'categories'
+                  ? 'Organize your storefront collections and shop filters.'
+                  : 'Manage the brands available across your product catalog.'}
             </p>
           </div>
-          <button className="admin-primary-button" type="button" onClick={openNewProduct}>
-            <Plus size={18} aria-hidden="true" />
-            Add product
-          </button>
+          {catalogView === 'products' && (
+            <button className="admin-primary-button" type="button" onClick={openNewProduct}>
+              <Plus size={18} aria-hidden="true" />
+              Add product
+            </button>
+          )}
         </motion.section>
+
+        <nav className="admin-catalog-nav" aria-label="Catalog management">
+          {(['products', 'categories', 'brands'] as const).map((view) => (
+            <button
+              key={view}
+              type="button"
+              className={catalogView === view ? 'is-active' : ''}
+              aria-current={catalogView === view ? 'page' : undefined}
+              onClick={() => {
+                setCatalogView(view);
+                setNotice(null);
+              }}
+            >
+              {view === 'products' ? 'Products' : view === 'categories' ? 'Categories' : 'Brands'}
+              <span>
+                {view === 'products'
+                  ? products.length
+                  : view === 'categories'
+                    ? categories.length
+                    : brands.length}
+              </span>
+            </button>
+          ))}
+        </nav>
 
         {notice && (
           <div
@@ -315,164 +359,187 @@ export default function AdminProductPage() {
           </div>
         )}
 
-        <section className="admin-metrics" aria-label="Product summary">
-          <Metric label="All products" value={products.length} icon={<Package />} />
-          <Metric label="Published" value={activeCount} tone="green" />
-          <Metric label="Drafts" value={draftCount} tone="sand" />
-          <Metric label="Low stock" value={lowStockCount} tone="rose" />
-        </section>
+        {catalogView === 'products' && (
+          <>
+            <section className="admin-metrics" aria-label="Product summary">
+              <Metric label="All products" value={products.length} icon={<Package />} />
+              <Metric label="Published" value={activeCount} tone="green" />
+              <Metric label="Drafts" value={draftCount} tone="sand" />
+              <Metric label="Low stock" value={lowStockCount} tone="rose" />
+            </section>
 
-        <section className="admin-product-panel" aria-labelledby="product-list-heading">
-          <div className="admin-panel-header">
-            <div>
-              <h2 id="product-list-heading">Product library</h2>
-              <p>
-                {filteredProducts.length} {filteredProducts.length === 1 ? 'product' : 'products'}{' '}
-                in view
-              </p>
-            </div>
-            <div className="admin-filters">
-              <label className="admin-search">
-                <Search size={17} aria-hidden="true" />
-                <span className="visually-hidden">Search products</span>
-                <input
-                  type="search"
-                  placeholder="Search name, SKU, or slug"
-                  value={search}
-                  onChange={(event) => setSearch(event.target.value)}
-                />
-              </label>
-              <label className="admin-select-wrap">
-                <span className="visually-hidden">Filter by status</span>
-                <select
-                  value={statusFilter}
-                  onChange={(event) => setStatusFilter(event.target.value)}
-                >
-                  <option value="all">All status</option>
-                  <option value="active">Active</option>
-                  <option value="draft">Draft</option>
-                  <option value="archived">Archived</option>
-                </select>
-                <ChevronDown size={15} aria-hidden="true" />
-              </label>
-            </div>
-          </div>
+            <section className="admin-product-panel" aria-labelledby="product-list-heading">
+              <div className="admin-panel-header">
+                <div>
+                  <h2 id="product-list-heading">Product library</h2>
+                  <p>
+                    {filteredProducts.length}{' '}
+                    {filteredProducts.length === 1 ? 'product' : 'products'} in view
+                  </p>
+                </div>
+                <div className="admin-filters">
+                  <label className="admin-search">
+                    <Search size={17} aria-hidden="true" />
+                    <span className="visually-hidden">Search products</span>
+                    <input
+                      type="search"
+                      placeholder="Search name, SKU, or slug"
+                      value={search}
+                      onChange={(event) => setSearch(event.target.value)}
+                    />
+                  </label>
+                  <label className="admin-select-wrap">
+                    <span className="visually-hidden">Filter by status</span>
+                    <select
+                      value={statusFilter}
+                      onChange={(event) => setStatusFilter(event.target.value)}
+                    >
+                      <option value="all">All status</option>
+                      <option value="active">Active</option>
+                      <option value="draft">Draft</option>
+                      <option value="archived">Archived</option>
+                    </select>
+                    <ChevronDown size={15} aria-hidden="true" />
+                  </label>
+                </div>
+              </div>
 
-          {isLoading ? (
-            <div className="admin-loading" role="status">
-              <LoaderCircle className="admin-spinner" size={22} aria-hidden="true" />
-              Loading product library…
-            </div>
-          ) : filteredProducts.length === 0 ? (
-            <div className="admin-empty">
-              <span>
-                <Package size={23} aria-hidden="true" />
-              </span>
-              <h3>{products.length ? 'No matching products' : 'Your product library is ready'}</h3>
-              <p>
-                {products.length
-                  ? 'Try another search or status filter.'
-                  : 'Add your first product to begin building the catalog.'}
-              </p>
-              {!products.length && (
-                <button className="admin-primary-button" type="button" onClick={openNewProduct}>
-                  <Plus size={17} aria-hidden="true" /> Add your first product
-                </button>
+              {isLoading ? (
+                <div className="admin-loading" role="status">
+                  <LoaderCircle className="admin-spinner" size={22} aria-hidden="true" />
+                  Loading product library…
+                </div>
+              ) : filteredProducts.length === 0 ? (
+                <div className="admin-empty">
+                  <span>
+                    <Package size={23} aria-hidden="true" />
+                  </span>
+                  <h3>
+                    {products.length ? 'No matching products' : 'Your product library is ready'}
+                  </h3>
+                  <p>
+                    {products.length
+                      ? 'Try another search or status filter.'
+                      : 'Add your first product to begin building the catalog.'}
+                  </p>
+                  {!products.length && (
+                    <button className="admin-primary-button" type="button" onClick={openNewProduct}>
+                      <Plus size={17} aria-hidden="true" /> Add your first product
+                    </button>
+                  )}
+                </div>
+              ) : (
+                <div className="admin-table-scroll">
+                  <table className="admin-product-table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Product</th>
+                        <th scope="col">SKU</th>
+                        <th scope="col">Price</th>
+                        <th scope="col">Inventory</th>
+                        <th scope="col">Status</th>
+                        <th scope="col">
+                          <span className="visually-hidden">Actions</span>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {filteredProducts.map((product) => (
+                        <tr key={product.id}>
+                          <td>
+                            <button
+                              className="admin-product-identity"
+                              type="button"
+                              onClick={() => void openPreview(product)}
+                            >
+                              <span className="admin-product-thumb">
+                                {product.thumbnail_url ? (
+                                  <img src={product.thumbnail_url} alt="" loading="lazy" />
+                                ) : (
+                                  <ImagePlus size={19} aria-hidden="true" />
+                                )}
+                              </span>
+                              <span>
+                                <strong>{product.name}</strong>
+                                <small>
+                                  {product.featured ? 'Featured · ' : ''}
+                                  {product.slug}
+                                </small>
+                              </span>
+                            </button>
+                          </td>
+                          <td className="admin-mono">{product.sku}</td>
+                          <td className="admin-price">${product.price.toFixed(2)}</td>
+                          <td>
+                            <span
+                              className={
+                                product.availableQuantity < 5
+                                  ? 'admin-stock admin-stock--low'
+                                  : 'admin-stock'
+                              }
+                            >
+                              {product.availableQuantity} available
+                            </span>
+                          </td>
+                          <td>
+                            <StatusBadge status={product.status} />
+                          </td>
+                          <td>
+                            <div
+                              className="admin-row-actions"
+                              role="group"
+                              aria-label={`Actions for ${product.name}`}
+                            >
+                              <button
+                                type="button"
+                                aria-label={`Preview ${product.name}`}
+                                onClick={() => void openPreview(product)}
+                              >
+                                Preview
+                              </button>
+                              <button
+                                type="button"
+                                aria-label={`Edit ${product.name}`}
+                                onClick={() => void openEditProduct(product)}
+                              >
+                                <Pencil size={15} aria-hidden="true" />
+                              </button>
+                              <button
+                                type="button"
+                                aria-label={`Delete ${product.name}`}
+                                className="admin-delete-icon"
+                                onClick={() => setPendingDelete(product)}
+                              >
+                                <Trash2 size={15} aria-hidden="true" />
+                              </button>
+                            </div>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
               )}
-            </div>
+            </section>
+          </>
+        )}
+        {catalogView !== 'products' &&
+          (isLoading ? (
+            <section className="admin-product-panel">
+              <div className="admin-loading" role="status">
+                <LoaderCircle className="admin-spinner" size={22} aria-hidden="true" />
+                Loading catalog…
+              </div>
+            </section>
           ) : (
-            <div className="admin-table-scroll">
-              <table className="admin-product-table">
-                <thead>
-                  <tr>
-                    <th scope="col">Product</th>
-                    <th scope="col">SKU</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Inventory</th>
-                    <th scope="col">Status</th>
-                    <th scope="col">
-                      <span className="visually-hidden">Actions</span>
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {filteredProducts.map((product) => (
-                    <tr key={product.id}>
-                      <td>
-                        <button
-                          className="admin-product-identity"
-                          type="button"
-                          onClick={() => void openPreview(product)}
-                        >
-                          <span className="admin-product-thumb">
-                            {product.thumbnail_url ? (
-                              <img src={product.thumbnail_url} alt="" loading="lazy" />
-                            ) : (
-                              <ImagePlus size={19} aria-hidden="true" />
-                            )}
-                          </span>
-                          <span>
-                            <strong>{product.name}</strong>
-                            <small>
-                              {product.featured ? 'Featured · ' : ''}
-                              {product.slug}
-                            </small>
-                          </span>
-                        </button>
-                      </td>
-                      <td className="admin-mono">{product.sku}</td>
-                      <td className="admin-price">${product.price.toFixed(2)}</td>
-                      <td>
-                        <span
-                          className={
-                            product.availableQuantity < 5
-                              ? 'admin-stock admin-stock--low'
-                              : 'admin-stock'
-                          }
-                        >
-                          {product.availableQuantity} available
-                        </span>
-                      </td>
-                      <td>
-                        <StatusBadge status={product.status} />
-                      </td>
-                      <td>
-                        <div
-                          className="admin-row-actions"
-                          role="group"
-                          aria-label={`Actions for ${product.name}`}
-                        >
-                          <button
-                            type="button"
-                            aria-label={`Preview ${product.name}`}
-                            onClick={() => void openPreview(product)}
-                          >
-                            Preview
-                          </button>
-                          <button
-                            type="button"
-                            aria-label={`Edit ${product.name}`}
-                            onClick={() => void openEditProduct(product)}
-                          >
-                            <Pencil size={15} aria-hidden="true" />
-                          </button>
-                          <button
-                            type="button"
-                            aria-label={`Delete ${product.name}`}
-                            className="admin-delete-icon"
-                            onClick={() => setPendingDelete(product)}
-                          >
-                            <Trash2 size={15} aria-hidden="true" />
-                          </button>
-                        </div>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          )}
-        </section>
+            <CatalogTaxonomyPanel
+              kind={catalogView}
+              categories={categories}
+              brands={brands}
+              products={products}
+              onChanged={refresh}
+            />
+          ))}
       </div>
 
       <AnimatePresence>

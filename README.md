@@ -66,6 +66,22 @@ product save RPC. The admin workspace is available at `/admin/products` only to 
 with a trusted admin claim. Setup and manual verification steps are in
 [the admin product management guide](docs/database/admin-product-management.md).
 
+### Homepage content studio
+
+Apply `20261106120000_create_homepage_content.sql` after the catalog migrations. Admins can manage
+homepage sections, cards, hero copy, and campaign banners at `/admin/homepage` (or `/admin`), then
+preview, save drafts, and publish. Public visitors only read the published page. Setup and access
+details are in [the homepage content guide](docs/admin/homepage-content-management.md).
+
+### Customer product listing
+
+Apply `20261105170000_add_public_product_availability.sql` after the catalog and image-storage
+migrations. The `/shop` listing reads only active catalog records and uses a restricted database
+function to expose in-stock status without making exact inventory quantities public.
+
+Apply `20261105180000_add_public_variant_availability.sql` after the product availability migration
+to enable per-variant stock status on `/shop/:slug` without exposing inventory quantities.
+
 ## Quality checks
 
 - `npm run lint`

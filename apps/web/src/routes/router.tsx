@@ -1,7 +1,4 @@
-import { createBrowserRouter } from 'react-router-dom';
-import BrandExperienceAsync from '@/features/catalog/BrandExperienceAsync';
-import HeroSection from '@/features/catalog/HeroSection';
-import HomeCatalogAsync from '@/features/catalog/HomeCatalogAsync';
+import { createBrowserRouter, Navigate } from 'react-router-dom';
 import MainLayout from '@/layouts/MainLayout';
 import { AuthLayout, AuthSkeleton } from '@/features/auth/components';
 import AuthFoundationPreview from '@/features/auth/AuthFoundationPreview';
@@ -14,14 +11,47 @@ export const router = createBrowserRouter([
     element: <ProtectedRoute />,
     children: [
       {
+        element: <MainLayout />,
+        children: [
+          {
+            path: '/account/orders',
+            lazy: async () => {
+              const { default: OrderHistoryPage } =
+                await import('@/features/checkout/orderHistory/OrderHistoryPage');
+              return { Component: OrderHistoryPage };
+            },
+          },
+        ],
+      },
+      {
         element: <AdminRoute />,
         children: [
+          {
+            path: '/admin',
+            element: <Navigate to="/admin/homepage" replace />,
+          },
+          {
+            path: '/admin/homepage',
+            lazy: async () => {
+              const { default: HomepageAdminPage } =
+                await import('@/features/admin/homepage/HomepageAdminPage');
+              return { Component: HomepageAdminPage };
+            },
+          },
           {
             path: '/admin/products',
             lazy: async () => {
               const { default: AdminProductPage } =
                 await import('@/features/admin/catalog/AdminProductPage');
               return { Component: AdminProductPage };
+            },
+          },
+          {
+            path: '/admin/orders',
+            lazy: async () => {
+              const { default: AdminOrdersPage } =
+                await import('@/features/admin/orders/AdminOrdersPage');
+              return { Component: AdminOrdersPage };
             },
           },
         ],
@@ -208,13 +238,66 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: (
-          <>
-            <HeroSection />
-            <HomeCatalogAsync />
-            <BrandExperienceAsync />
-          </>
-        ),
+        lazy: async () => {
+          const { default: HomepagePage } = await import('@/features/catalog/HomepagePage');
+          return { Component: HomepagePage };
+        },
+      },
+      {
+        path: 'shop/:slug',
+        lazy: async () => {
+          const { default: ProductDetailsPage } =
+            await import('@/features/catalog/product-details/ProductDetailsPage');
+          return { Component: ProductDetailsPage };
+        },
+      },
+      {
+        path: 'shop',
+        lazy: async () => {
+          const { default: ShopPage } = await import('@/features/catalog/shop/ShopPage');
+          return { Component: ShopPage };
+        },
+      },
+      {
+        path: 'wishlist',
+        lazy: async () => {
+          const { default: WishlistPage } = await import('@/features/wishlist/WishlistPage');
+          return { Component: WishlistPage };
+        },
+      },
+      {
+        path: 'cart',
+        lazy: async () => {
+          const { default: CartPage } = await import('@/features/cart/CartPage');
+          return { Component: CartPage };
+        },
+      },
+      {
+        path: 'checkout/confirmation/:orderId',
+        lazy: async () => {
+          const { default: OrderConfirmationPage } =
+            await import('@/features/checkout/orderConfirmation/OrderConfirmationPage');
+          return { Component: OrderConfirmationPage };
+        },
+      },
+      {
+        path: 'account/orders/:orderId/tracking',
+        lazy: async () => {
+          const { default: OrderTrackingPage } =
+            await import('@/features/checkout/orderTracking/OrderTrackingPage');
+          return { Component: OrderTrackingPage };
+        },
+      },
+      {
+        path: 'checkout',
+        lazy: async () => {
+          const { default: CheckoutPage } = await import('@/features/checkout/CheckoutPage');
+          return { Component: CheckoutPage };
+        },
+      },
+      {
+        path: 'categories',
+        element: <Navigate to="/shop" replace />,
       },
       {
         path: '*',
