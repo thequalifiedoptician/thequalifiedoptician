@@ -59,7 +59,11 @@ export async function receiveSafepayWebhook(request: Request, response: Response
     );
   }
 
-  const recorded = await new SafepayWebhookService(config).recordVerifiedEvent(event);
+  const service = new SafepayWebhookService(config);
+  const recorded = await service.recordVerifiedEvent(event);
+  if (process.env.VERCEL === '1') {
+    await service.processVerifiedEvent(recorded.event_row_id);
+  }
   response.status(200).json({
     data: {
       accepted: true,

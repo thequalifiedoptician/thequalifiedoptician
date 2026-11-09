@@ -14,12 +14,11 @@ AlSera is a full-stack e-commerce platform in foundation setup. The approved Pha
 3. Copy `apps/web/.env.example` to `apps/web/.env` only when configuring the frontend's API or Supabase client. Supabase values are not needed to start the application.
 4. Run both development servers with `npm run dev`.
 
-The web development server is available at `http://localhost:5173`; it proxies `/api` requests to the API at `http://localhost:3001`. The API health check is `http://localhost:3001/health`.
+The web development server is available at `http://localhost:5173`; it proxies `/api` requests to the API at `http://localhost:3001`. The API health checks are `http://localhost:3001/health` locally and `/api/health` on Vercel.
 
 ## Deployment foundation
 
-- **Vercel:** The root `vercel.json` builds the web workspace and configures SPA route fallback. Set `VITE_API_BASE_URL` to the deployed API origin ending in `/api/v1`.
-- **Render:** The root `render.yaml` builds and runs the API workspace and uses `/health` for service health checks. Set `CORS_ORIGIN` to the deployed frontend origin in the Render service environment.
+- **Vercel:** Deploy both the Vite frontend and Express API from the repository root. The API is served by a Vercel Function under `/api/*`; the frontend calls it through `/api/v1`. Copy `.env.vercel.example` to `.env.vercel.local`, replace every placeholder, and import that file into the Vercel project's Environment Variables for Production (and Preview if needed). Only `VITE_*` values are exposed to the browser. Keep Supabase service-role and Safepay secret values unprefixed and server-side.
 - Configure Supabase project URL and publishable/anon key only when frontend code needs the client. Never add a Supabase service-role key to frontend environment variables.
 
 ### Supabase password recovery
@@ -89,4 +88,4 @@ to enable per-variant stock status on `/shop/:slug` without exposing inventory q
 - `npm run typecheck`
 - `npm run build`
 
-Never commit local `.env` files or place private credentials in `VITE_*` variables. Only the Supabase project URL and publishable/anon key may be exposed to the browser.
+Never commit local `.env` files or place private credentials in `VITE_*` variables. Only the Supabase project URL and publishable/anon key may be exposed to the browser. Configure Safepay's webhook URL as `https://<your-vercel-domain>/api/v1/payments/safepay/webhook`.

@@ -17,8 +17,10 @@ accepted from the browser as authoritative values.
   owner-scoped. It returns only the status currently stored in `payments`.
 - `POST /api/v1/payments/safepay/webhook` — public provider callback. It
   verifies `X-SFPY-SIGNATURE` against the exact raw body, persists verified
-  events idempotently, and acknowledges them before the background processor
-  applies payment/order/inventory changes.
+  events idempotently, then processes the event transactionally in the Vercel
+  Function before acknowledging it. Transient processing errors return a
+  retryable response to Safepay.
+- `GET /api/health` — Vercel Function health check.
 
 Both routes use the existing `/api/v1` API prefix and the server's CORS and
 Helmet configuration. Responses do not include provider tokens or database
@@ -58,12 +60,15 @@ metadata.
   database transaction then checks and deducts inventory and advances the
   order through `confirmed` to `processing`. Authorization events do not
   trigger fulfillment, and refund events are recorded as ignored.
-- Each verified event is stored in `payment_events` before the API responds.
-  A database-backed worker claims events with leases and retries transient
-  failures. Unique provider/event IDs prevent replayed webhook deliveries from
-  applying inventory changes twice. Safepay does not document a signed
-  timestamp in the webhook contract, so retry-safe event-ID idempotency is
-  used instead of rejecting delayed legitimate deliveries.
+- Each verified event is stored in `payment_events` before business processing.
+  In Vercel, the webhook request then invokes a service-role-only database
+  function that locks the event and applies payment, order, inventory, and
+  transaction-log changes atomically. Transient errors are persisted and return
+  a non-success response so Safepay can retry. Unique provider/event IDs and
+  row locks prevent duplicate deliveries from applying inventory changes
+  twice. Safepay does not document a signed timestamp in the webhook contract,
+  so retry-safe event-ID idempotency is used instead of rejecting delayed
+  legitimate deliveries. Local API development retains the queue worker.
 - If an order is inactive or its inventory is no longer available when a
   successful payment arrives, the payment is recorded as paid, inventory is
   not overdrawn, and the event is left for manual reconciliation.
@@ -76,8 +81,9 @@ metadata.
 
 ## Environment
 
-Configure these only in the API server's private environment. See
-`apps/api/.env.example` for names and non-secret defaults:
+Configure these in the Vercel project's Environment Variables. The root
+`.env.vercel.example` contains both frontend and server-only names for import;
+only `VITE_*` values are bundled into the browser:
 
 - `SAFEPAY_PUBLIC_KEY`
 - `SAFEPAY_SECRET_KEY`
@@ -89,8 +95,11 @@ Configure these only in the API server's private environment. See
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `WEB_APP_URL`
 
-Never put the service-role or Safepay secret key in a `VITE_` variable or
-frontend environment file.
+Never put the service-role or Safepay secret key in a `VITE_` variable.
+Vercel serves the API and frontend on the same origin; set
+`VITE_API_BASE_URL=/api/v1`, `WEB_APP_URL` and `CORS_ORIGIN` to the production
+Vercel domain, and configure the Safepay webhook URL as
+`https://<your-vercel-domain>/api/v1/payments/safepay/webhook`.
 
 ## Database
 
@@ -106,9 +115,13 @@ service-role-only RPCs for event claiming and atomic payment/order/inventory
 updates, and allows `confirmed` and `processing` order states. Customer roles
 cannot read or write webhook events.
 
+Apply `supabase/migrations/20261109110000_add_safepay_inline_webhook_processing.sql`
+after the webhook-processing migration. It adds the locked, transactional
+webhook processing RPC used by Vercel Functions.
+
 ## Manual testing checklist
 
-1. Configure API sandbox keys and verify malformed or missing credentials fail
+1. Import the completed Vercel environment file and verify malformed or missing credentials fail
    with a sanitized configuration response; confirm no secret appears in web
    assets or API responses.
 2. Apply migrations in a test Supabase project. Verify unauthenticated requests
@@ -130,7 +143,8 @@ cannot read or write webhook events.
    subscribe to relevant version 2.0.0 payment events. Set the endpoint shared
    secret as `SAFEPAY_WEBHOOK_SECRET`.
 9. Send a test webhook, verify invalid signatures and malformed payloads are
-   rejected, and confirm valid events are persisted before acknowledgement.
+   rejected, and confirm valid events are persisted and processed before
+   acknowledgement.
 10. Replay the same signed event and confirm it is acknowledged as a duplicate
     without a second inventory deduction.
 11. Test `payment.succeeded`, `payment.failed`, `authorization.succeeded`, and

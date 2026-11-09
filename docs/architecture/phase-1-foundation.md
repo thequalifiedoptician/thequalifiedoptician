@@ -57,7 +57,7 @@ Deliver a credible, maintainable commerce platform foundation for an internship 
 | Backend | Node.js, Express.js, TypeScript | A separately deployable, stateless API for business rules, privileged operations, and integrations. |
 | Database | Supabase PostgreSQL | Relational source of truth for catalog, inventory, customer commerce data, and orders. |
 | Authentication | Supabase Auth | Managed identity and session lifecycle. The frontend obtains a user access token; the API verifies it and makes authorization decisions. |
-| Hosting | Vercel (frontend), Render (API), Supabase (database/auth/storage as needed) | Clear separation of static/client delivery, API runtime, and managed data services. |
+| Hosting | Vercel (frontend and serverless Express API), Supabase (database/auth/storage as needed) | One deployment origin for the storefront and versioned API, with managed persistence and authentication. |
 | Version control | Git and GitHub | Branch-based collaboration, pull-request review, and automated checks. |
 
 **Additional dependency policy:** Do not add a global state library or server-state library by default. Start with React state/context for genuinely shared client state and service/hooks for API access. Reassess when measured complexity warrants another dependency.

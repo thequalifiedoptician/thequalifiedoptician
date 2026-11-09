@@ -35,7 +35,7 @@ export function createApp() {
   );
   app.use(express.json({ limit: '1mb' }));
 
-  app.get('/health', (_request, response) => {
+  app.get(['/health', '/api/health'], (_request, response) => {
     response.status(200).json({ status: 'ok' });
   });
 

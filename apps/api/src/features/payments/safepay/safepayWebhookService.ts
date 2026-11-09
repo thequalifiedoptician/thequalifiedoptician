@@ -58,6 +58,47 @@ export class SafepayWebhookService {
     return recorded[0];
   }
 
+  async processVerifiedEvent(eventRowId: string): Promise<Record<string, unknown>> {
+    const result = await supabaseRequest<Record<string, unknown>>(
+      this.config,
+      'rpc/process_safepay_webhook_event_inline',
+      new URLSearchParams(),
+      { method: 'POST', body: JSON.stringify({ p_event_row_id: eventRowId }) },
+    );
+    if (
+      result.result === 'processing_retry_scheduled' ||
+      result.result === 'processing_retry_exhausted' ||
+      result.result === 'processing_in_progress'
+    ) {
+      console.error('Safepay webhook processing needs a provider retry.', {
+        eventRowId,
+        result: result.result,
+      });
+      throw new SafepayIntegrationError(
+        'WEBHOOK_PROCESSING_FAILED',
+        'The payment event could not be processed yet. Safepay should retry this webhook.',
+        503,
+      );
+    }
+
+    if (
+      result.result === 'paid_order_inventory_shortfall_requires_reconciliation' ||
+      result.result === 'paid_payment_for_inactive_order_requires_reconciliation' ||
+      result.result === 'paid_payment_for_already_advanced_order_requires_reconciliation'
+    ) {
+      console.error('Safepay webhook requires manual reconciliation.', {
+        eventRowId,
+        result: result.result,
+      });
+    } else {
+      console.info('Safepay webhook processed.', {
+        eventRowId,
+        result: result.result,
+      });
+    }
+    return result;
+  }
+
   async processBatch(batchSize = 10): Promise<void> {
     for (let index = 0; index < batchSize; index += 1) {
       const claimed = await supabaseRequest<ClaimedEvent[]>(
