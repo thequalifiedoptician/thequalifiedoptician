@@ -104,6 +104,9 @@ button {
   border-radius: 15px;
   background: #e9ede5;
   color: var(--color-forest);
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 24px;
+  font-weight: 500;
   box-shadow: inset 0 1px 0 rgb(255 255 255 / 80%);
 }
 
@@ -115,6 +118,13 @@ button {
   stroke-width: 1.4;
   stroke-linecap: round;
   stroke-linejoin: round;
+}
+
+.brand-mark img {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  object-fit: contain;
 }
 
 .brand-lockup {
@@ -508,7 +518,9 @@ button {
   height: 15px;
   color: #87958a;
   stroke-width: 1.7;
-  transition: color 180ms ease, transform 180ms ease;
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
 }
 
 .navigation-indicator {
@@ -532,7 +544,9 @@ button {
 .navigation-link.is-active {
   border-color: rgb(52 88 75 / 10%);
   background: linear-gradient(135deg, #edf2eb, #f3f2e9);
-  box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%), 0 3px 10px rgb(35 51 44 / 5%);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 90%),
+    0 3px 10px rgb(35 51 44 / 5%);
 }
 
 .navigation-link.is-active .navigation-item-icon {
@@ -645,7 +659,9 @@ button {
   border: 1px solid rgb(220 222 212 / 90%);
   border-radius: 16px;
   background: #fffefa;
-  box-shadow: 0 18px 48px rgb(35 51 44 / 16%), inset 0 1px 0 #fff;
+  box-shadow:
+    0 18px 48px rgb(35 51 44 / 16%),
+    inset 0 1px 0 #fff;
   animation: account-popover-enter 160ms ease-out;
 }
 
@@ -676,7 +692,9 @@ button {
   font-size: 11px;
   font-weight: 650;
   text-decoration: none;
-  transition: background-color 180ms ease, border-color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease;
 }
 
 .header-account-orders:hover {
@@ -701,7 +719,10 @@ button {
   font: inherit;
   font-size: 11px;
   font-weight: 650;
-  transition: background-color 180ms ease, border-color 180ms ease, color 180ms ease;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
 }
 
 .header-account-signout:hover:not(:disabled) {
@@ -5534,6 +5555,18 @@ button {
   stroke-width: 1.5;
 }
 
+.footer-logo-mark img {
+  width: 100%;
+  height: 100%;
+  padding: 5px;
+  object-fit: contain;
+}
+
+.footer-logo-mark {
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 21px;
+}
+
 .footer-logo-lockup {
   display: grid;
   gap: 2px;
@@ -5575,12 +5608,30 @@ button {
   line-height: 1.5;
 }
 
+.footer-contact-preview a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.footer-contact-preview a:hover {
+  color: #34584b;
+  text-decoration: underline;
+}
+
 .footer-contact-preview svg {
   width: 13px;
   height: 13px;
   flex: 0 0 auto;
   color: #718575;
   stroke-width: 1.6;
+}
+
+.admin-brand-mark img,
+.admin-orders-brand-mark img {
+  width: 100%;
+  height: 100%;
+  padding: 4px;
+  object-fit: contain;
 }
 
 .footer-detail-note {
@@ -5677,9 +5728,21 @@ button {
   border: 1px solid rgb(52 88 75 / 15%);
   border-radius: 50%;
   background: rgb(255 255 255 / 38%);
-  color: #6d7f70;
-  cursor: not-allowed;
-  opacity: 0.65;
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
+}
+
+.footer-social-button:hover {
+  background: #fff;
+  transform: translateY(-2px);
+}
+
+.footer-social-button:focus-visible {
+  outline: 2px solid #718a72;
+  outline-offset: 3px;
 }
 
 .footer-social-button svg {
@@ -5768,7 +5831,14 @@ button {
   height: 17px;
 }
 
-.support-popover {
+.social-contact-widget {
+  position: relative;
+}
+
+.social-contact-menu {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
   width: min(315px, calc(100vw - 36px));
   padding: 17px;
   border: 1px solid rgb(52 88 75 / 15%);
@@ -5780,80 +5850,80 @@ button {
   -webkit-backdrop-filter: blur(18px);
 }
 
-.support-popover-heading {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.support-popover-icon {
+.social-contact-heading {
   display: grid;
-  width: 36px;
-  height: 36px;
-  flex: 0 0 auto;
-  place-items: center;
-  border-radius: 12px;
-  background: #eaf0e7;
-  color: #45624d;
-}
-
-.support-popover-icon svg {
-  width: 18px;
-  height: 18px;
-  stroke-width: 1.6;
-}
-
-.support-popover-heading > div {
-  display: grid;
-  flex: 1;
   gap: 3px;
 }
 
-.support-popover-heading strong {
+.social-contact-heading strong {
   color: #35453a;
   font-family: Georgia, 'Times New Roman', serif;
-  font-size: 15px;
+  font-size: 16px;
   font-weight: 500;
 }
 
-.support-popover-heading small {
+.social-contact-heading span {
   color: #858b82;
-  font-size: 7px;
+  font-size: 10px;
 }
 
-.support-popover-close {
+.social-contact-links {
   display: grid;
-  width: 30px;
-  height: 30px;
-  place-items: center;
-  border: 1px solid rgb(52 88 75 / 12%);
-  border-radius: 50%;
-  background: transparent;
-  color: #65756a;
-  cursor: pointer;
+  gap: 5px;
+  margin-top: 13px;
 }
 
-.support-popover-close svg {
-  width: 14px;
-  height: 14px;
-}
-
-.support-popover > p {
-  margin: 13px 0;
+.social-contact-empty {
+  margin: 13px 0 2px;
+  padding: 11px 12px;
+  border-radius: 10px;
+  background: #f2f3ed;
   color: #747d75;
-  font-size: 9px;
-  line-height: 1.7;
+  font-size: 10px;
+  line-height: 1.6;
 }
 
-.support-popover > a {
-  display: inline-flex;
-  color: #45624d;
-  font-size: 8px;
+.social-contact-empty:focus {
+  outline: none;
+}
+
+.social-contact-link {
+  display: flex;
+  min-height: 43px;
+  align-items: center;
+  gap: 11px;
+  padding: 5px 8px;
+  border-radius: 10px;
+  color: #45554a;
+  font-size: 11px;
   font-weight: 650;
-  text-underline-offset: 3px;
+  text-decoration: none;
+  transition:
+    background-color 160ms ease,
+    transform 160ms ease;
 }
 
-.support-popover-close:focus-visible,
+.social-contact-link:hover {
+  background: #f2f3ed;
+  transform: translateX(2px);
+}
+
+.social-contact-icon {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 10px;
+}
+
+.social-contact-icon svg {
+  width: 17px;
+  height: 17px;
+  stroke-width: 1.8;
+}
+
+.social-contact-link:focus-visible,
 .floating-action-button:focus-visible {
   outline: 2px solid #718a72;
   outline-offset: 4px;

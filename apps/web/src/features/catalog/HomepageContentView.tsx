@@ -1,12 +1,16 @@
-import { motion, useReducedMotion } from 'framer-motion';
-import { ArrowUpRight, Sparkles } from 'lucide-react';
-import type { ReactNode } from 'react';
-import { Link } from 'react-router-dom';
+import { AnimatePresence, motion, useReducedMotion } from 'framer-motion';
+import { ArrowUpRight, Eye, Sparkles } from 'lucide-react';
+import { useCallback, useRef, useState, type MouseEvent, type ReactNode } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import type {
   HomepageCard,
   HomepageContent,
   HomepageSection,
 } from '@/features/admin/homepage/homepageContent';
+import { AUTH_ROUTES } from '@/features/auth/constants/auth';
+import { useAuth } from '@/features/auth/hooks/useAuth';
+import { getAuthRedirectState } from '@/features/auth/utils/authNavigation';
+import HomepageProductQuickView from './HomepageProductQuickView';
 import './homepage-content.css';
 
 function ActionLink({
@@ -76,6 +80,14 @@ function SectionCard({
   index: number;
 }) {
   const reduceMotion = useReducedMotion();
+  const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
+  const location = useLocation();
+  const navigate = useNavigate();
+  const [quickViewOpen, setQuickViewOpen] = useState(false);
+  const quickViewButtonRef = useRef<HTMLButtonElement>(null);
+  const closeQuickView = useCallback(() => {
+    setQuickViewOpen(false);
+  }, []);
   const cardContent = (
     <>
       {card.imageUrl ? (
@@ -105,6 +117,76 @@ function SectionCard({
         <summary>{card.title}</summary>
         <p>{card.description}</p>
       </details>
+    );
+  }
+
+  if (kind === 'products') {
+    const slug = card.actionHref.match(/^\/shop\/([^/?#]+)/u)?.[1];
+    const productHref = slug ? `/shop/${slug}` : '/shop';
+    let quickViewSlug: string | null = null;
+    if (slug) {
+      try {
+        quickViewSlug = decodeURIComponent(slug);
+      } catch {
+        quickViewSlug = slug;
+      }
+    }
+    const handleProductAction = (event: MouseEvent<HTMLElement>) => {
+      if (isAuthLoading || isAuthenticated) {
+        return;
+      }
+      event.preventDefault();
+      navigate(AUTH_ROUTES.login, {
+        state: getAuthRedirectState(location, productHref),
+      });
+    };
+
+    return (
+      <>
+        <motion.article
+          className="homepage-content-card homepage-content-card--products homepage-product-card"
+          initial={reduceMotion ? false : { opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: '-35px' }}
+          transition={{
+            duration: reduceMotion ? 0 : 0.38,
+            delay: reduceMotion ? 0 : Math.min(index, 5) * 0.04,
+          }}
+        >
+          <Link
+            className="homepage-product-card-link"
+            to={productHref}
+            aria-label={`View ${card.title}${slug ? ' product details' : ' in the shop'}`}
+            onClick={handleProductAction}
+          >
+            {cardContent}
+          </Link>
+          <button
+            ref={quickViewButtonRef}
+            className="homepage-product-quick-view-trigger"
+            type="button"
+            title="Quick View"
+            aria-label={`Quick View: ${card.title}`}
+            disabled={isAuthLoading}
+            onClick={() => {
+              if (!isAuthenticated) {
+                navigate(AUTH_ROUTES.login, {
+                  state: getAuthRedirectState(location, productHref),
+                });
+                return;
+              }
+              setQuickViewOpen(true);
+            }}
+          >
+            <Eye aria-hidden="true" />
+          </button>
+        </motion.article>
+        <AnimatePresence onExitComplete={() => quickViewButtonRef.current?.focus()}>
+          {quickViewOpen && (
+            <HomepageProductQuickView card={card} slug={quickViewSlug} onClose={closeQuickView} />
+          )}
+        </AnimatePresence>
+      </>
     );
   }
 

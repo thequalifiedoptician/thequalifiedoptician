@@ -4,6 +4,7 @@ import {
   ArrowDown,
   ArrowUp,
   ClipboardList,
+  CreditCard,
   ExternalLink,
   Eye,
   EyeOff,
@@ -14,7 +15,11 @@ import {
   Plus,
   RefreshCw,
   Save,
+  Share2,
+  Sparkles,
+  Settings,
   Send,
+  Tag,
   Trash2,
   Upload,
 } from 'lucide-react';
@@ -36,6 +41,7 @@ import {
   type HomepageProductOption,
 } from './homepageContentService';
 import HomepageContentView from '@/features/catalog/HomepageContentView';
+import { useBrandSettings } from '@/features/brand/brandSettingsContext';
 import './homepage-admin.css';
 
 type Notice = { kind: 'success' | 'error'; message: string };
@@ -113,6 +119,7 @@ function TextField({
 
 export default function HomepageAdminPage() {
   const reduceMotion = useReducedMotion();
+  const { settings: brand } = useBrandSettings();
   const [content, setContent] = useState<HomepageContent | null>(null);
   const [products, setProducts] = useState<HomepageProductOption[]>([]);
   const [newSectionKind, setNewSectionKind] = useState<HomepageSectionKind>('categories');
@@ -343,11 +350,13 @@ export default function HomepageAdminPage() {
   return (
     <main className="admin-homepage">
       <header className="admin-topbar">
-        <Link className="admin-brand" to="/" aria-label="AlSera home">
-          <span className="admin-brand-mark">A</span>
+        <Link className="admin-brand" to="/" aria-label={`${brand.brand_name} home`}>
+          <span className="admin-brand-mark">
+            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
+          </span>
           <span>
-            <strong>AlSera</strong>
-            <small>Commerce studio</small>
+            <strong>{brand.brand_name}</strong>
+            <small>{brand.brand_tagline || 'Admin console'}</small>
           </span>
         </Link>
         <div className="admin-topbar-navigation">
@@ -364,9 +373,29 @@ export default function HomepageAdminPage() {
               <Package size={16} aria-hidden="true" />
               <span>Products</span>
             </Link>
+            <Link className="admin-topbar-link" to="/admin/deals">
+              <Tag size={16} aria-hidden="true" />
+              <span>Deals</span>
+            </Link>
+            <Link className="admin-topbar-link" to="/admin/about">
+              <Sparkles size={16} aria-hidden="true" />
+              <span>About</span>
+            </Link>
             <Link className="admin-topbar-link" to="/admin/orders">
               <ClipboardList size={16} aria-hidden="true" />
               <span>Orders</span>
+            </Link>
+            <Link className="admin-topbar-link" to="/admin/settings/brand">
+              <Settings size={16} aria-hidden="true" />
+              <span>Settings</span>
+            </Link>
+            <Link className="admin-topbar-link" to="/admin/settings/payment-accounts">
+              <CreditCard size={16} aria-hidden="true" />
+              <span>Payment Accounts</span>
+            </Link>
+            <Link className="admin-topbar-link" to="/admin/settings/social">
+              <Share2 size={16} aria-hidden="true" />
+              <span>Social Media</span>
             </Link>
             <Link className="admin-topbar-link admin-topbar-storefront" to="/">
               <ExternalLink size={15} aria-hidden="true" />

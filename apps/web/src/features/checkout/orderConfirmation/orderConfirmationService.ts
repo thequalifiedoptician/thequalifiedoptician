@@ -1,11 +1,13 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/features/auth/types/database';
+import { apiClient } from '@/lib/api-client';
+import type { PaymentStatus } from '../payment/paymentTypes';
 
 export type ConfirmedOrder = Database['public']['Tables']['orders']['Row'];
 export type ConfirmedOrderItem = Database['public']['Tables']['order_items']['Row'];
 export type ConfirmedPayment = Pick<
   Database['public']['Tables']['payments']['Row'],
-  'method_id' | 'status' | 'amount' | 'currency' | 'created_at' | 'updated_at'
+  'id' | 'method_id' | 'status' | 'amount' | 'currency' | 'created_at' | 'updated_at'
 >;
 
 export type OrderConfirmationData = {
@@ -60,7 +62,7 @@ export async function loadOrderConfirmation(
       .order('id', { ascending: true }),
     client
       .from('payments')
-      .select('method_id, status, amount, currency, created_at, updated_at')
+      .select('id, method_id, status, amount, currency, created_at, updated_at')
       .eq('order_id', order.id)
       .order('created_at', { ascending: false })
       .limit(1)
@@ -72,4 +74,34 @@ export async function loadOrderConfirmation(
   }
 
   return { order, items: itemsResult.data, payment: paymentResult.data };
+}
+
+const PAYMENT_STATUSES = new Set<PaymentStatus>([
+  'pending',
+  'processing',
+  'authorized',
+  'paid',
+  'failed',
+  'cancelled',
+  'refunded',
+]);
+
+export async function loadPaymentStatus(
+  paymentId: string,
+  accessToken: string,
+): Promise<PaymentStatus> {
+  const response = await apiClient.get<{
+    data?: { paymentId?: unknown; status?: unknown };
+  }>(`/payments/${encodeURIComponent(paymentId)}/status`, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  const result = response.data.data;
+  if (
+    result?.paymentId !== paymentId ||
+    typeof result.status !== 'string' ||
+    !PAYMENT_STATUSES.has(result.status as PaymentStatus)
+  ) {
+    throw new OrderConfirmationError('load-failed');
+  }
+  return result.status as PaymentStatus;
 }

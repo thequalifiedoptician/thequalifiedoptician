@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@fortawesome/free-brands-svg-icons": "^7.3.1",
     "@supabase/supabase-js": "^2.118.0",
     "axios": "^1.21.0",
     "framer-motion": "^14.9.0",

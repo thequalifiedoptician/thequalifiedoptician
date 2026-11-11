@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState, type FormEvent } from 'react';
 import { ShieldCheck, UserRoundPlus } from 'lucide-react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getSupabaseClient } from '@/lib/supabase';
 import { AUTH_ROUTES } from './constants/auth';
 import {
@@ -17,6 +17,7 @@ import {
 import { signUpWithEmail } from './services/authService';
 import { useAuth } from './hooks/useAuth';
 import { toAuthServiceError } from './utils/authErrors';
+import { getSafeAuthReturnPath } from './utils/authNavigation';
 import {
   validateConfirmPassword,
   validateEmail,
@@ -44,16 +45,19 @@ export default function SignupPage() {
   const [successMessage, setSuccessMessage] = useState('');
   const fullNameRef = useRef<HTMLInputElement>(null);
   const { isAuthenticated } = useAuth();
+  const location = useLocation();
   const navigate = useNavigate();
+  const navigationState = location.state as { from?: unknown } | null;
+  const redirectTo = getSafeAuthReturnPath(navigationState?.from);
 
   useEffect(() => {
     if (!isAuthenticated) {
       return;
     }
 
-    const timer = setTimeout(() => navigate('/', { replace: true }), 650);
+    const timer = setTimeout(() => navigate(redirectTo, { replace: true }), 650);
     return () => clearTimeout(timer);
-  }, [isAuthenticated, navigate]);
+  }, [isAuthenticated, navigate, redirectTo]);
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -107,7 +111,7 @@ export default function SignupPage() {
       } else {
         navigate(AUTH_ROUTES.verificationPending, {
           replace: true,
-          state: { email: email.trim() },
+          state: { email: email.trim(), from: redirectTo },
         });
       }
     } catch (error) {
@@ -289,7 +293,10 @@ export default function SignupPage() {
         </FormContainer>
 
         <p className="auth-signup-login-link">
-          Already have an account? <Link to={AUTH_ROUTES.login}>Sign in</Link>
+          Already have an account?{' '}
+          <Link to={AUTH_ROUTES.login} state={{ from: redirectTo }}>
+            Sign in
+          </Link>
         </p>
         <p className="auth-login-security-note">
           We’ll send you an email to verify your address and protect your account.

@@ -1,7 +1,7 @@
 import { ArrowRight, Check, Mail } from 'lucide-react';
 import { useState, type FormEvent } from 'react';
 
-export default function NewsletterSignup() {
+export default function NewsletterSignup({ brandName }: { brandName: string }) {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
@@ -13,7 +13,7 @@ export default function NewsletterSignup() {
     <section className="newsletter-section" aria-labelledby="newsletter-heading">
       <div className="newsletter-copy">
         <p className="newsletter-eyebrow">
-          <Mail aria-hidden="true" />A NOTE FROM AL SERA
+          <Mail aria-hidden="true" />A NOTE FROM {brandName.toUpperCase()}
         </p>
         <h2 id="newsletter-heading">
           Good things,
@@ -47,7 +47,7 @@ export default function NewsletterSignup() {
               placeholder="Your email address"
               required
             />
-            <button type="submit" aria-label="Subscribe to AlSera newsletter">
+            <button type="submit" aria-label={`Subscribe to ${brandName} newsletter`}>
               <span>Subscribe</span>
               <ArrowRight aria-hidden="true" />
             </button>

@@ -9,6 +9,8 @@ import {
   WandSparkles,
 } from 'lucide-react';
 import type { PaymentMethodDefinition, PaymentMethodId } from './paymentTypes';
+import { isManualPaymentMethod } from './paymentTypes';
+import PaymentBrandMark from './PaymentBrandMark';
 
 const methodIcons = {
   card: CreditCard,
@@ -23,15 +25,17 @@ export default function PaymentMethodSelector({
   methods,
   selectedMethodId,
   onSelect,
+  disabled = false,
 }: {
   methods: PaymentMethodDefinition[];
   selectedMethodId: PaymentMethodId;
   onSelect: (methodId: PaymentMethodId) => void;
+  disabled?: boolean;
 }) {
   const reduceMotion = useReducedMotion();
 
   return (
-    <fieldset className="payment-method-selector">
+    <fieldset className="payment-method-selector" disabled={disabled}>
       <legend className="payment-method-legend">Choose a payment preference</legend>
       <div className="payment-method-grid">
         {methods.map((method) => {
@@ -58,7 +62,11 @@ export default function PaymentMethodSelector({
               />
               <span className="payment-method-option-content">
                 <span className="payment-method-icon" aria-hidden="true">
-                  <Icon size={20} strokeWidth={1.7} />
+                  {isManualPaymentMethod(method.id) ? (
+                    <PaymentBrandMark brand={method.id} />
+                  ) : (
+                    <Icon size={20} strokeWidth={1.7} />
+                  )}
                 </span>
                 <span className="payment-method-copy">
                   <span className="payment-method-title-line">

@@ -33,4 +33,7 @@ export const env = {
   supabaseAnonKey: process.env.SUPABASE_ANON_KEY?.trim() ?? '',
   supabaseServiceRoleKey: process.env.SUPABASE_SERVICE_ROLE_KEY?.trim() ?? '',
   webAppUrl: process.env.WEB_APP_URL?.trim() ?? '',
+  resendApiKey: process.env.RESEND_API_KEY?.trim() ?? '',
+  resendFromEmail: process.env.RESEND_FROM_EMAIL?.trim() ?? '',
+  manualPaymentsAdminEmail: process.env.MANUAL_PAYMENT_ADMIN_EMAIL?.trim() ?? '',
 };

@@ -9,11 +9,13 @@ import {
   LoaderCircle,
   Package,
   Search,
+  Settings,
 } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { getSupabaseClient } from '@/lib/supabase';
 import { formatCartPrice } from '@/features/cart/cartUtils';
+import { useBrandSettings } from '@/features/brand/brandSettingsContext';
 import {
   ADMIN_ORDER_PAGE_SIZE,
   loadAdminOrders,
@@ -209,6 +211,7 @@ function OrderRow({ entry }: { entry: AdminOrderWithItems }) {
 
 export default function AdminOrdersPage() {
   const reduceMotion = useReducedMotion();
+  const { settings: brand } = useBrandSettings();
   const [orders, setOrders] = useState<AdminOrderWithItems[]>([]);
   const [status, setStatus] = useState<AdminOrderStatus>('all');
   const [dateFilter, setDateFilter] = useState<DateFilter>('30days');
@@ -267,11 +270,13 @@ export default function AdminOrdersPage() {
   return (
     <main className="admin-orders">
       <header className="admin-orders-topbar">
-        <Link className="admin-orders-brand" to="/" aria-label="AlSera home">
-          <span className="admin-orders-brand-mark">A</span>
+        <Link className="admin-orders-brand" to="/" aria-label={`${brand.brand_name} home`}>
+          <span className="admin-orders-brand-mark">
+            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
+          </span>
           <span>
-            <strong>AlSera</strong>
-            <small>Commerce studio</small>
+            <strong>{brand.brand_name}</strong>
+            <small>{brand.brand_tagline || 'Admin console'}</small>
           </span>
         </Link>
         <nav className="admin-orders-nav" aria-label="Admin navigation">
@@ -280,6 +285,11 @@ export default function AdminOrdersPage() {
           <Link to="/admin/products">Products</Link>
           <Link className="is-active" to="/admin/orders" aria-current="page">
             Orders
+          </Link>
+          <Link to="/admin/payments/pending">Pending payments</Link>
+          <Link to="/admin/settings/payment-accounts">Payment accounts</Link>
+          <Link to="/admin/settings/brand">
+            <Settings size={15} aria-hidden="true" /> Settings
           </Link>
           <Link to="/" className="admin-orders-storefront">
             <ArrowLeft size={15} aria-hidden="true" /> Storefront

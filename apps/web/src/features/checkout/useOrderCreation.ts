@@ -26,14 +26,14 @@ export function useOrderCreation(userId: string | undefined, refreshCart: () => 
       shippingAddressId: string | null,
       cartItems: CartDisplayItem[],
       idempotencyKey: string,
-    ): Promise<void> => {
+    ): Promise<OrderCreationResult | null> => {
       if (!userId) {
         setState({
           order: null,
           isProcessing: false,
           error: new OrderCreationError('AUTH_REQUIRED').message,
         });
-        return;
+        return null;
       }
 
       setState((current) => ({ ...current, isProcessing: true, error: null }));
@@ -46,12 +46,14 @@ export function useOrderCreation(userId: string | undefined, refreshCart: () => 
         const order = await createOrder(client, shippingAddressId, idempotencyKey, expectedCart);
         setState({ order, isProcessing: false, error: null });
         refreshCart();
+        return order;
       } catch (error) {
         const message =
           error instanceof OrderCreationError
             ? error.message
             : 'We could not create your order. Please try again.';
         setState({ order: null, isProcessing: false, error: message });
+        return null;
       }
     },
     [refreshCart, userId],

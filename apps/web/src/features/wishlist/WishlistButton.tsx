@@ -10,9 +10,15 @@ type WishlistButtonProps = {
   productId: string;
   productName: string;
   className?: string;
+  authReturnTo?: string;
 };
 
-export default function WishlistButton({ productId, productName, className }: WishlistButtonProps) {
+export default function WishlistButton({
+  productId,
+  productName,
+  className,
+  authReturnTo,
+}: WishlistButtonProps) {
   const reduceMotion = useReducedMotion();
   const { isAuthenticated, isLoading: isAuthLoading } = useAuth();
   const { isLoading, isPending, isSaved, operationErrors, toggleWishlist } = useWishlist();
@@ -35,7 +41,7 @@ export default function WishlistButton({ productId, productName, className }: Wi
       title={saved ? 'Remove from wishlist' : 'Add to wishlist'}
       onClick={() => {
         if (!isAuthenticated) {
-          navigate(AUTH_ROUTES.login, { state: getAuthRedirectState(location) });
+          navigate(AUTH_ROUTES.login, { state: getAuthRedirectState(location, authReturnTo) });
           return;
         }
         void toggleWishlist(productId);

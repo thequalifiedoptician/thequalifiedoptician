@@ -20,6 +20,7 @@ import { signInWithEmail, signInWithProvider } from './services/authService';
 import type { Database } from './types/database';
 import { useAuth } from './hooks/useAuth';
 import { toAuthServiceError } from './utils/authErrors';
+import { getSafeAuthReturnPath } from './utils/authNavigation';
 import { validateEmail, validatePassword } from './utils/validation';
 
 type LoginErrors = {
@@ -50,7 +51,7 @@ export default function LoginPage() {
   const location = useLocation();
   const navigate = useNavigate();
   const navigationState = location.state as LoginNavigationState | null;
-  const redirectTo = safeReturnPath(navigationState?.from ?? oauthReturnTo);
+  const redirectTo = getSafeAuthReturnPath(navigationState?.from ?? oauthReturnTo);
   const oauthCallbackError = getOAuthCallbackError(location.search, location.hash);
   const savedOAuthCallbackError =
     typeof navigationState?.oauthError === 'string' ? navigationState.oauthError : undefined;
@@ -308,7 +309,10 @@ export default function LoginPage() {
           </p>
         )}
         <p className="auth-signup-login-link">
-          New to AlSera? <Link to={AUTH_ROUTES.signup}>Create an account</Link>
+          New to AlSera?{' '}
+          <Link to={AUTH_ROUTES.signup} state={{ from: redirectTo }}>
+            Create an account
+          </Link>
         </p>
         <p className="auth-login-security-note">
           Sign-in is protected with encrypted connections and secure sessions.
@@ -316,14 +320,6 @@ export default function LoginPage() {
       </div>
     </AuthCard>
   );
-}
-
-function safeReturnPath(value: unknown): string {
-  if (typeof value !== 'string' || !value.startsWith('/') || value.startsWith('//')) {
-    return '/';
-  }
-
-  return value;
 }
 
 function getOAuthCallbackError(search: string, hash: string): string | undefined {

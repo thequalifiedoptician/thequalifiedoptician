@@ -23,6 +23,7 @@ import { toAuthServiceError } from '@/features/auth/utils/authErrors';
 import { getAuthRedirectState } from '@/features/auth/utils/authNavigation';
 import { useCart } from '@/features/cart/useCart';
 import { useWishlist } from '@/features/wishlist/useWishlist';
+import { useBrandSettings } from '@/features/brand/brandSettingsContext';
 
 const MotionLink = motion.create(Link);
 
@@ -52,6 +53,7 @@ export default function SiteHeader() {
   const { isAuthenticated, isLoading, user, signOut } = useAuth();
   const { productIds: wishlistProductIds } = useWishlist();
   const { itemCount } = useCart();
+  const { settings: brand } = useBrandSettings();
   const location = useLocation();
 
   const handleSignOut = async () => {
@@ -151,18 +153,17 @@ export default function SiteHeader() {
             <Menu aria-hidden="true" />
           </button>
 
-          <Link className="brand" to="/" aria-label="AlSera home">
+          <Link className="brand" to="/" aria-label={`${brand.brand_name} home`}>
             <span className="brand-mark" aria-hidden="true">
-              <svg viewBox="0 0 40 40" fill="none">
-                <path d="M20 5.5c5.1 5.5 8.3 10.1 8.3 14.2a8.3 8.3 0 1 1-16.6 0C11.7 15.6 14.9 11 20 5.5Z" />
-                <path d="M20 16.8v12.7" />
-                <path d="M20 24.7c-4.9-4.7-8.7-5.7-11-3.8 1.6 5.3 5.3 8 11 7.9" />
-                <path d="M20 24.7c4.9-4.7 8.7-5.7 11-3.8-1.6 5.3-5.3 8-11 7.9" />
-              </svg>
+              {brand.logo_url ? (
+                <img src={brand.logo_url} alt="" />
+              ) : (
+                brand.brand_name.charAt(0).toUpperCase()
+              )}
             </span>
             <span className="brand-lockup">
-              <span className="brand-name">AlSera</span>
-              <span className="brand-caption">OBJECTS FOR LIVING</span>
+              <span className="brand-name">{brand.brand_name}</span>
+              {brand.brand_tagline && <span className="brand-caption">{brand.brand_tagline}</span>}
             </span>
           </Link>
 
@@ -247,7 +248,7 @@ export default function SiteHeader() {
               )}
             </NavLink>
           ))}
-          <span className="navigation-note">A considered point of view</span>
+          {brand.brand_tagline && <span className="navigation-note">{brand.brand_tagline}</span>}
           <div className="desktop-auth-actions" aria-label="Account actions">
             {isLoading ? null : isAuthenticated ? (
               <details className="header-account-menu">
@@ -260,7 +261,9 @@ export default function SiteHeader() {
                 </summary>
                 <div className="header-account-popover">
                   <span className="header-account-eyebrow">SIGNED IN AS</span>
-                  <span className="header-account-email">{user?.email ?? 'AlSera customer'}</span>
+                  <span className="header-account-email">
+                    {user?.email ?? `${brand.brand_name} customer`}
+                  </span>
                   <NavLink className="header-account-orders" to="/account/orders">
                     My orders <span aria-hidden="true">→</span>
                   </NavLink>
@@ -334,7 +337,7 @@ export default function SiteHeader() {
                 onKeyDown={handleDrawerKeyDown}
               >
                 <div className="drawer-heading">
-                  <span className="drawer-title">Explore AlSera</span>
+                  <span className="drawer-title">Explore {brand.brand_name}</span>
                   <motion.button
                     ref={closeButtonRef}
                     className="icon-button"
@@ -381,7 +384,8 @@ export default function SiteHeader() {
                   {isLoading ? null : isAuthenticated ? (
                     <>
                       <p className="mobile-auth-user">
-                        Signed in as <strong>{user?.email ?? 'AlSera customer'}</strong>
+                        Signed in as{' '}
+                        <strong>{user?.email ?? `${brand.brand_name} customer`}</strong>
                       </p>
                       <Link
                         className="mobile-auth-button mobile-auth-orders"

@@ -4,6 +4,8 @@ import helmet from 'helmet';
 import { env } from '../config/env.js';
 import { createSafepayRoutes } from '../features/payments/safepay/safepayRoutes.js';
 import { SafepayIntegrationError } from '../features/payments/safepay/safepayTypes.js';
+import { createManualPaymentNotificationRoutes } from '../features/payments/manual/manualPaymentNotificationRoutes.js';
+import { ManualPaymentNotificationError } from '../features/payments/manual/manualPaymentNotificationTypes.js';
 
 const errorHandler: ErrorRequestHandler = (error, _request, response, next) => {
   if (response.headersSent) {
@@ -11,10 +13,13 @@ const errorHandler: ErrorRequestHandler = (error, _request, response, next) => {
     return;
   }
 
-  const statusCode = error instanceof SafepayIntegrationError ? error.statusCode : 500;
-  const code = error instanceof SafepayIntegrationError ? error.code : 'INTERNAL_SERVER_ERROR';
-  const message =
-    error instanceof SafepayIntegrationError ? error.message : 'An unexpected error occurred.';
+  const knownError =
+    error instanceof SafepayIntegrationError || error instanceof ManualPaymentNotificationError
+      ? error
+      : null;
+  const statusCode = knownError?.statusCode ?? 500;
+  const code = knownError?.code ?? 'INTERNAL_SERVER_ERROR';
+  const message = knownError?.message ?? 'An unexpected error occurred.';
   response.status(statusCode).json({
     error: {
       code,
@@ -40,6 +45,7 @@ export function createApp() {
   });
 
   app.use('/api/v1/payments', createSafepayRoutes());
+  app.use('/api/v1/manual-payments', createManualPaymentNotificationRoutes());
 
   app.use('/api/v1', (_request, response) => {
     response.status(404).json({

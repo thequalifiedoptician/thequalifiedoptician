@@ -41,3 +41,11 @@ export type PaymentMethodSelection = {
   methodId: PaymentMethodId;
   providerId: PaymentProviderId;
 };
+
+export type ManualPaymentMethodId = 'easypaisa' | 'jazzcash';
+
+export function isManualPaymentMethod(
+  methodId: PaymentMethodId,
+): methodId is ManualPaymentMethodId {
+  return methodId === 'easypaisa' || methodId === 'jazzcash';
+}

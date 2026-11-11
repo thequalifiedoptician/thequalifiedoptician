@@ -13,12 +13,14 @@ import {
 import { AUTH_ROUTES } from './constants/auth';
 import { resendSignupVerification } from './services/authService';
 import { toAuthServiceError } from './utils/authErrors';
+import { getSafeAuthReturnPath } from './utils/authNavigation';
 import { validateEmail } from './utils/validation';
 
 const RESEND_COOLDOWN_SECONDS = 60;
 
 type VerificationNavigationState = {
   email?: unknown;
+  from?: unknown;
 };
 
 function isNonEmptyString(value: unknown): value is string {
@@ -28,6 +30,7 @@ function isNonEmptyString(value: unknown): value is string {
 export default function EmailVerificationPendingPage() {
   const location = useLocation();
   const navigationState = location.state as VerificationNavigationState | null;
+  const redirectTo = getSafeAuthReturnPath(navigationState?.from);
   const [email, setEmail] = useState(
     isNonEmptyString(navigationState?.email) ? navigationState.email.trim() : '',
   );
@@ -144,7 +147,10 @@ export default function EmailVerificationPendingPage() {
           </LoadingButton>
         </FormContainer>
         <p className="auth-verification-pending-footer">
-          Already verified? <Link to={AUTH_ROUTES.login}>Return to sign in</Link>
+          Already verified?{' '}
+          <Link to={AUTH_ROUTES.login} state={{ from: redirectTo }}>
+            Return to sign in
+          </Link>
         </p>
       </AuthCard>
     </>

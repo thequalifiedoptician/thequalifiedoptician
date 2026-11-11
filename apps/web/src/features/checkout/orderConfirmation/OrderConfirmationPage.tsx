@@ -34,7 +34,7 @@ import '../checkout.css';
 export default function OrderConfirmationPage() {
   const { orderId } = useParams();
   const { isAuthenticated, isLoading: isAuthLoading, session, user } = useAuth();
-  const confirmation = useOrderConfirmation(orderId, user?.id);
+  const confirmation = useOrderConfirmation(orderId, user?.id, session?.access_token);
   const safepayCheckout = useSafepayCheckout(session?.access_token);
   const location = useLocation();
   const navigate = useNavigate();
@@ -69,8 +69,12 @@ export default function OrderConfirmationPage() {
       : order?.status === 'pending_payment'
         ? 'pending'
         : 'unverified');
+  const isManualPayment =
+    payment?.method_id === 'easypaisa' || payment?.method_id === 'jazzcash';
+  const isCashOnDelivery = payment?.method_id === 'cash_on_delivery';
   const canContinueToPayment =
     order?.status === 'pending_payment' &&
+    (!payment || payment.method_id === 'safepay') &&
     (!payment || ['pending', 'failed', 'cancelled'].includes(payment.status));
 
   useEffect(() => {
@@ -153,10 +157,10 @@ export default function OrderConfirmationPage() {
               }
             />
             <span className="confirmation-status-divider" aria-hidden="true" />
-            {isInactiveOrder ? (
-              <span className="confirmation-payment-pending">Payment status unverified</span>
-            ) : paymentStatus === 'paid' ? (
+            {paymentStatus === 'paid' ? (
               <OrderStatusBadge status="confirmed" label="Payment confirmed" />
+            ) : isInactiveOrder ? (
+              <span className="confirmation-payment-pending">Payment status unverified</span>
             ) : (
               <span className="confirmation-payment-pending">
                 <span aria-hidden="true" />
@@ -167,18 +171,45 @@ export default function OrderConfirmationPage() {
         </ConfirmationMotion>
 
         {isInactiveOrder ? (
-          <CheckoutNotice tone="warning" title="This order is no longer active">
-            Payment status has not been verified. If you continued to Safepay, contact support
-            before placing another order to avoid a duplicate charge.
+          <CheckoutNotice
+            tone="warning"
+            title={
+              paymentStatus === 'paid'
+                ? 'Payment confirmed — support review needed'
+                : 'This order is no longer active'
+            }
+          >
+            {paymentStatus === 'paid'
+              ? 'Safepay confirmed payment, but this order is no longer active. Contact support before placing another order.'
+              : 'Payment status has not been verified. If you continued to Safepay, contact support before placing another order to avoid a duplicate charge.'}
           </CheckoutNotice>
         ) : paymentStatus === 'paid' ? (
           <CheckoutNotice tone="success" title="Payment confirmed">
-            Safepay confirmed this payment. Your order is now {order.status}.
+            {isCashOnDelivery
+              ? `Cash on Delivery payment has been recorded. Your order is now ${order.status}.`
+              : isManualPayment
+                ? `Your manual payment was approved. Your order is now ${order.status}.`
+                : `Safepay confirmed this payment. Your order is now ${order.status}.`}
+          </CheckoutNotice>
+        ) : isManualPayment ? (
+          <CheckoutNotice tone="info" title="Manual payment verification">
+            Your payment proof is being checked by our team. Open the payment page to review your
+            transfer details or upload a requested replacement screenshot.
+          </CheckoutNotice>
+        ) : isCashOnDelivery ? (
+          <CheckoutNotice tone="info" title="Pay when your order arrives">
+            Your order is being prepared. The payment is due to the courier at delivery.
           </CheckoutNotice>
         ) : (
           <CheckoutNotice tone="info" title="Payment is pending">
-            Safepay return pages are not verified in this phase. Your order remains pending until a
-            trusted payment-status integration confirms the result.
+            We are checking the payment status reported by Safepay. Your order will update after the
+            verified webhook is processed.
+          </CheckoutNotice>
+        )}
+        {confirmation.statusError && paymentStatus !== 'paid' && (
+          <CheckoutNotice tone="warning" title="Payment update is delayed">
+            We could not refresh the latest payment status. This page will keep checking while the
+            order is pending.
           </CheckoutNotice>
         )}
 
@@ -240,6 +271,14 @@ export default function OrderConfirmationPage() {
                   <>
                     Continue to Safepay <ArrowRight size={15} aria-hidden="true" />
                   </>
+                )}
+                {isManualPayment && (
+                  <Link
+                    className="checkout-button checkout-button--secondary"
+                    to={`/checkout/manual-payment/${encodeURIComponent(order.id)}`}
+                  >
+                    View payment instructions <ArrowRight size={15} aria-hidden="true" />
+                  </Link>
                 )}
               </button>
             )}

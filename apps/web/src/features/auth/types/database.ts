@@ -147,6 +147,66 @@ type PaymentTransactionRow = {
   created_at: string;
 };
 
+type PaymentAccountRow = {
+  id: number;
+  easypaisa_holder_name: string;
+  easypaisa_mobile_number: string;
+  easypaisa_qr_path: string | null;
+  enable_easypaisa: boolean;
+  jazzcash_holder_name: string;
+  jazzcash_mobile_number: string;
+  jazzcash_qr_path: string | null;
+  enable_jazzcash: boolean;
+  bank_name: string;
+  bank_account_holder: string;
+  bank_iban: string;
+  bank_account_number: string;
+  bank_qr_path: string | null;
+  enable_bank_transfer: boolean;
+  updated_at: string;
+};
+
+type DealRow = {
+  id: string;
+  title: string;
+  badge: string;
+  description: string;
+  image_path: string;
+  image_url: string;
+  image_alt: string;
+  action_label: string;
+  action_href: string;
+  starts_at: string | null;
+  ends_at: string | null;
+  is_active: boolean;
+  sort_order: number;
+  created_at: string;
+  updated_at: string;
+};
+
+type ManualPaymentProofRow = {
+  id: string;
+  order_id: string;
+  customer_id: string;
+  payment_id: string;
+  payment_method: 'easypaisa' | 'jazzcash';
+  account_used: Json;
+  transaction_reference: string | null;
+  payment_screenshot_url: string | null;
+  uploaded_at: string | null;
+  verification_status:
+    | 'awaiting_payment'
+    | 'pending_verification'
+    | 'approved'
+    | 'rejected'
+    | 'reupload_requested';
+  verified_by: string | null;
+  verified_at: string | null;
+  admin_note: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
 export type Database = {
   public: {
     Tables: {
@@ -352,6 +412,177 @@ export type Database = {
           published_at?: string | null;
         }
       >;
+      about_page_content: Table<
+        {
+          id: number;
+          draft_content: Json;
+          published_content: Json | null;
+          updated_at: string;
+          published_at: string | null;
+        },
+        {
+          id?: number;
+          draft_content: Json;
+          published_content?: Json | null;
+          updated_at?: string;
+          published_at?: string | null;
+        },
+        {
+          id?: number;
+          draft_content?: Json;
+          published_content?: Json | null;
+          updated_at?: string;
+          published_at?: string | null;
+        }
+      >;
+      deals: Table<
+        DealRow,
+        Omit<DealRow, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        },
+        Partial<DealRow>
+      >;
+      brand_settings: Table<
+        {
+          id: string;
+          is_active: boolean;
+          brand_name: string;
+          brand_tagline: string;
+          browser_title: string;
+          logo_url: string | null;
+          favicon_url: string | null;
+          company_name: string;
+          company_email: string;
+          company_phone: string;
+          company_address: string;
+          company_city: string;
+          company_country: string;
+          postal_code: string;
+          google_maps_url: string;
+          support_email: string;
+          footer_copyright: string;
+          created_at: string;
+          updated_at: string;
+        },
+        {
+          id?: string;
+          is_active?: boolean;
+          brand_name: string;
+          brand_tagline?: string;
+          browser_title: string;
+          logo_url?: string | null;
+          favicon_url?: string | null;
+          company_name?: string;
+          company_email?: string;
+          company_phone?: string;
+          company_address?: string;
+          company_city?: string;
+          company_country?: string;
+          postal_code?: string;
+          google_maps_url?: string;
+          support_email?: string;
+          footer_copyright?: string;
+          created_at?: string;
+          updated_at?: string;
+        },
+        {
+          id?: string;
+          is_active?: boolean;
+          brand_name?: string;
+          brand_tagline?: string;
+          browser_title?: string;
+          logo_url?: string | null;
+          favicon_url?: string | null;
+          company_name?: string;
+          company_email?: string;
+          company_phone?: string;
+          company_address?: string;
+          company_city?: string;
+          company_country?: string;
+          postal_code?: string;
+          google_maps_url?: string;
+          support_email?: string;
+          footer_copyright?: string;
+          created_at?: string;
+          updated_at?: string;
+        }
+      >;
+      social_settings: Table<
+        {
+          id: number;
+          whatsapp_number: string;
+          whatsapp_message: string;
+          facebook_url: string;
+          instagram_url: string;
+          tiktok_url: string;
+          linkedin_url: string;
+          youtube_url: string;
+          twitter_url: string;
+          pinterest_url: string;
+          email: string;
+          support_phone: string;
+          enable_whatsapp: boolean;
+          enable_facebook: boolean;
+          enable_instagram: boolean;
+          enable_tiktok: boolean;
+          enable_linkedin: boolean;
+          enable_youtube: boolean;
+          enable_twitter: boolean;
+          enable_pinterest: boolean;
+          enable_email: boolean;
+          updated_at: string;
+        },
+        {
+          id?: number;
+          whatsapp_number?: string;
+          whatsapp_message?: string;
+          facebook_url?: string;
+          instagram_url?: string;
+          tiktok_url?: string;
+          linkedin_url?: string;
+          youtube_url?: string;
+          twitter_url?: string;
+          pinterest_url?: string;
+          email?: string;
+          support_phone?: string;
+          enable_whatsapp?: boolean;
+          enable_facebook?: boolean;
+          enable_instagram?: boolean;
+          enable_tiktok?: boolean;
+          enable_linkedin?: boolean;
+          enable_youtube?: boolean;
+          enable_twitter?: boolean;
+          enable_pinterest?: boolean;
+          enable_email?: boolean;
+          updated_at?: string;
+        },
+        {
+          id?: number;
+          whatsapp_number?: string;
+          whatsapp_message?: string;
+          facebook_url?: string;
+          instagram_url?: string;
+          tiktok_url?: string;
+          linkedin_url?: string;
+          youtube_url?: string;
+          twitter_url?: string;
+          pinterest_url?: string;
+          email?: string;
+          support_phone?: string;
+          enable_whatsapp?: boolean;
+          enable_facebook?: boolean;
+          enable_instagram?: boolean;
+          enable_tiktok?: boolean;
+          enable_linkedin?: boolean;
+          enable_youtube?: boolean;
+          enable_twitter?: boolean;
+          enable_pinterest?: boolean;
+          enable_email?: boolean;
+          updated_at?: string;
+        }
+      >;
       orders: Table<
         OrderRow,
         Omit<OrderRow, 'id' | 'created_at' | 'updated_at'> & {
@@ -406,9 +637,30 @@ export type Database = {
         },
         Partial<PaymentTransactionRow>
       >;
+      payment_accounts: Table<
+        PaymentAccountRow,
+        Omit<PaymentAccountRow, 'id' | 'updated_at'> & {
+          id?: number;
+          updated_at?: string;
+        },
+        Partial<PaymentAccountRow>
+      >;
+      manual_payment_proofs: Table<
+        ManualPaymentProofRow,
+        Omit<ManualPaymentProofRow, 'id' | 'created_at' | 'updated_at'> & {
+          id?: string;
+          created_at?: string;
+          updated_at?: string;
+        },
+        Partial<ManualPaymentProofRow>
+      >;
     };
     Views: {
       published_homepage_content: {
+        Row: { content: Json };
+        Relationships: [];
+      };
+      published_about_page_content: {
         Row: { content: Json };
         Relationships: [];
       };
@@ -480,6 +732,13 @@ export type Database = {
         };
         Returns: undefined;
       };
+      save_about_page_content: {
+        Args: {
+          p_content: Json;
+          p_publish?: boolean;
+        };
+        Returns: undefined;
+      };
       set_default_shipping_address: {
         Args: {
           p_address_id: string;
@@ -525,6 +784,44 @@ export type Database = {
           tax_amount: number;
           total: number;
           reservation_expires_at: string;
+        }[];
+      };
+      prepare_manual_payment: {
+        Args: {
+          p_order_id: string;
+          p_payment_method: string;
+        };
+        Returns: string;
+      };
+      submit_manual_payment_proof: {
+        Args: {
+          p_proof_id: string;
+          p_storage_path: string;
+          p_transaction_reference?: string | null;
+        };
+        Returns: string;
+      };
+      record_cash_on_delivery: {
+        Args: {
+          p_order_id: string;
+        };
+        Returns: string;
+      };
+      verify_manual_payment_proof: {
+        Args: {
+          p_proof_id: string;
+          p_action: string;
+          p_admin_note?: string | null;
+        };
+        Returns: string;
+      };
+      get_manual_payment_dashboard_metrics: {
+        Args: Record<PropertyKey, never>;
+        Returns: {
+          pending_count: number;
+          approved_today: number;
+          rejected_count: number;
+          total_manual_payments: number;
         }[];
       };
     };

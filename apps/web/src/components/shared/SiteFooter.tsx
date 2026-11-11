@@ -1,15 +1,10 @@
-import {
-  ArrowUpRight,
-  Camera,
-  CirclePlay,
-  Leaf,
-  Mail,
-  MapPin,
-  Phone,
-  UsersRound,
-} from 'lucide-react';
+import { useMemo } from 'react';
+import { ArrowUpRight, Mail, MapPin, Phone } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import NewsletterSignup from './NewsletterSignup';
+import { useBrandSettings } from '@/features/brand/brandSettingsContext';
+import { useSocialSettings } from '@/features/social/socialSettingsContext';
+import { getSocialLinks } from '@/features/social/socialLinks';
 
 const linkGroups = [
   {
@@ -43,50 +38,97 @@ const linkGroups = [
   },
 ];
 
-const socialLinks = [
-  { name: 'Photo feed', icon: Camera },
-  { name: 'Community', icon: UsersRound },
-  { name: 'Video channel', icon: CirclePlay },
-];
-
 export default function SiteFooter() {
+  const { settings: brand } = useBrandSettings();
+  const { settings: socialSettings } = useSocialSettings();
+  const socialLinks = useMemo(() => getSocialLinks(socialSettings), [socialSettings]);
+  const companyLocation = [
+    brand.company_address,
+    brand.company_city,
+    brand.postal_code,
+    brand.company_country,
+  ]
+    .filter(Boolean)
+    .join(', ');
+  let googleMapsHref: string | null = null;
+  if (brand.google_maps_url) {
+    try {
+      const mapUrl = new URL(brand.google_maps_url);
+      if (mapUrl.protocol === 'https:') {
+        googleMapsHref = mapUrl.href;
+      }
+    } catch {
+      googleMapsHref = null;
+    }
+  }
+  const copyright = brand.footer_copyright
+    .replaceAll('{year}', String(new Date().getFullYear()))
+    .replaceAll('{brand_name}', brand.brand_name);
+
   return (
     <footer className="site-footer" id="footer">
       <div className="footer-container">
-        <NewsletterSignup />
+        <NewsletterSignup brandName={brand.brand_name} />
 
         <div className="footer-main">
-          <section className="footer-brand" aria-label="About AlSera">
-            <Link className="footer-logo" to="/" aria-label="AlSera home">
+          <section className="footer-brand" aria-label={`About ${brand.brand_name}`}>
+            <Link className="footer-logo" to="/" aria-label={`${brand.brand_name} home`}>
               <span className="footer-logo-mark" aria-hidden="true">
-                <Leaf />
+                {brand.logo_url ? (
+                  <img src={brand.logo_url} alt="" />
+                ) : (
+                  brand.brand_name.charAt(0).toUpperCase()
+                )}
               </span>
               <span className="footer-logo-lockup">
-                <span>AlSera</span>
-                <small>OBJECTS FOR LIVING</small>
+                <span>{brand.brand_name}</span>
+                {brand.brand_tagline && <small>{brand.brand_tagline}</small>}
               </span>
             </Link>
-            <p>
-              A considered collection for the everyday. Thoughtful objects, chosen to feel at home
-              in your life.
-            </p>
-            <div className="footer-contact-preview" aria-label="Contact details preview">
-              <span>
-                <Mail aria-hidden="true" />
-                <span>Contact details coming soon</span>
-              </span>
-              <span>
-                <Phone aria-hidden="true" />
-                <span>Support hours to be confirmed</span>
-              </span>
-              <span>
-                <MapPin aria-hidden="true" />
-                <span>Serving thoughtful spaces everywhere</span>
-              </span>
-            </div>
-            <p className="footer-detail-note">
-              Contact information shown here is a launch preview.
-            </p>
+            {brand.brand_tagline && <p>{brand.brand_tagline}</p>}
+            {(brand.company_email ||
+              brand.support_email ||
+              brand.company_phone ||
+              companyLocation ||
+              brand.company_name) && (
+              <div className="footer-contact-preview" aria-label="Company contact information">
+                {brand.company_name && (
+                  <span>
+                    <span>{brand.company_name}</span>
+                  </span>
+                )}
+                {brand.company_email && (
+                  <span>
+                    <Mail aria-hidden="true" />
+                    <a href={`mailto:${brand.company_email}`}>{brand.company_email}</a>
+                  </span>
+                )}
+                {brand.support_email && brand.support_email !== brand.company_email && (
+                  <span>
+                    <Mail aria-hidden="true" />
+                    <a href={`mailto:${brand.support_email}`}>{brand.support_email}</a>
+                  </span>
+                )}
+                {brand.company_phone && (
+                  <span>
+                    <Phone aria-hidden="true" />
+                    <a href={`tel:${brand.company_phone}`}>{brand.company_phone}</a>
+                  </span>
+                )}
+                {companyLocation && (
+                  <span>
+                    <MapPin aria-hidden="true" />
+                    {googleMapsHref ? (
+                      <a href={googleMapsHref} target="_blank" rel="noreferrer">
+                        {companyLocation}
+                      </a>
+                    ) : (
+                      <span>{companyLocation}</span>
+                    )}
+                  </span>
+                )}
+              </div>
+            )}
           </section>
 
           {linkGroups.map((group) => (
@@ -107,22 +149,26 @@ export default function SiteFooter() {
         </div>
 
         <div className="footer-bottom">
-          <p>© {new Date().getFullYear()} AlSera. A considered point of view.</p>
-          <div className="footer-socials" aria-label="Social channels">
-            <span>FIND US ELSEWHERE</span>
-            {socialLinks.map(({ name, icon: Icon }) => (
-              <button
-                type="button"
-                className="footer-social-button"
-                aria-label={`${name} link coming soon`}
-                title="Social links coming soon"
-                disabled
-                key={name}
-              >
-                <Icon aria-hidden="true" />
-              </button>
-            ))}
-          </div>
+          <p>{copyright}</p>
+          {socialLinks.length > 0 && (
+            <nav className="footer-socials" aria-label="Social channels">
+              <span>FIND US ELSEWHERE</span>
+              {socialLinks.map(({ key, label, href, color, Icon, external }) => (
+                <a
+                  className="footer-social-button"
+                  aria-label={label}
+                  title={label}
+                  href={href}
+                  target={external ? '_blank' : undefined}
+                  rel={external ? 'noopener noreferrer' : undefined}
+                  style={{ color }}
+                  key={key}
+                >
+                  <Icon aria-hidden="true" />
+                </a>
+              ))}
+            </nav>
+          )}
           <a className="footer-back-to-top" href="#main-content">
             Back to the beginning
             <ArrowUpRight aria-hidden="true" />

@@ -1,0 +1,514 @@
+.payment-review-admin {
+  min-height: 100vh;
+  background: #f5f5f0;
+  color: #263a30;
+  font-family: 'Avenir Next', Avenir, Inter, 'Segoe UI', sans-serif;
+}
+
+.payment-review-topbar {
+  display: flex;
+  min-height: 78px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 14px max(24px, calc((100vw - 1320px) / 2));
+  border-bottom: 1px solid #e5e7df;
+  background: #fffefa;
+}
+
+.payment-review-brand {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 12px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.payment-review-brand-mark {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid #e8e9e0;
+  border-radius: 12px;
+  background: #f3f4ee;
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.payment-review-brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.payment-review-brand strong,
+.payment-review-brand small {
+  display: block;
+}
+
+.payment-review-brand small {
+  margin-top: 2px;
+  color: #78837a;
+  font-size: 11px;
+}
+
+.payment-review-nav {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  color: #637067;
+  font-size: 12px;
+}
+
+.payment-review-nav > span {
+  color: #9aa198;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+}
+
+.payment-review-nav a {
+  display: inline-flex;
+  min-height: 34px;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 8px;
+  border-radius: 8px;
+  color: inherit;
+  text-decoration: none;
+}
+
+.payment-review-nav a:hover,
+.payment-review-nav a.is-active {
+  background: #eff2ec;
+  color: #375d4a;
+}
+
+.payment-review-nav .payment-review-storefront {
+  border-left: 1px solid #e5e7df;
+  border-radius: 0;
+  padding-left: 15px;
+}
+
+.payment-review-content {
+  width: min(100% - 40px, 1120px);
+  margin: 0 auto;
+  padding: 40px 0 70px;
+}
+
+.payment-review-heading {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 24px;
+}
+
+.payment-review-heading p,
+.payment-review-queue > header p {
+  margin: 0 0 8px;
+  color: #9b765b;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.16em;
+}
+
+.payment-review-heading h1 {
+  margin: 0;
+  font-size: clamp(26px, 4vw, 36px);
+  letter-spacing: -0.035em;
+}
+
+.payment-review-heading span {
+  display: block;
+  margin-top: 9px;
+  color: #78837a;
+  font-size: 14px;
+}
+
+.payment-review-heading > a {
+  color: #42684e;
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.payment-review-heading > a:hover {
+  text-decoration: underline;
+}
+
+.payment-review-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.payment-review-metrics article {
+  min-width: 0;
+  padding: 17px;
+  border: 1px solid #e6e8df;
+  border-radius: 13px;
+  background: #fffefa;
+}
+
+.payment-review-metrics article > span,
+.payment-review-metrics article > small {
+  display: block;
+  color: #78837a;
+  font-size: 11px;
+}
+
+.payment-review-metrics strong {
+  display: block;
+  margin: 6px 0 3px;
+  color: #375d4a;
+  font-size: 25px;
+  letter-spacing: -0.03em;
+}
+
+.payment-review-message {
+  margin: 0 0 15px;
+  padding: 13px 15px;
+  border: 1px solid #cce2d2;
+  border-radius: 9px;
+  background: #f4f8f2;
+  color: #315d3e;
+  font-size: 13px;
+}
+
+.payment-review-message--error {
+  border-color: #f1d0cc;
+  background: #fff8f6;
+  color: #953d36;
+}
+
+.payment-review-email-retry {
+  min-height: 35px;
+  margin: -4px 0 15px;
+  padding: 0 11px;
+  border: 1px solid #d5cba9;
+  border-radius: 8px;
+  background: #fffefa;
+  color: #785f2c;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-review-email-retry:disabled {
+  cursor: wait;
+  opacity: 0.6;
+}
+
+.payment-review-queue {
+  padding: 21px;
+  border: 1px solid #e6e8df;
+  border-radius: 15px;
+  background: #fffefa;
+  box-shadow: 0 10px 28px rgb(34 51 41 / 3%);
+}
+
+.payment-review-queue > header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-bottom: 17px;
+  border-bottom: 1px solid #eceee7;
+}
+
+.payment-review-queue > header h2 {
+  margin: 0;
+  font-size: 19px;
+}
+
+.payment-review-queue > header > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  color: #78837a;
+  font-size: 12px;
+}
+
+.payment-review-list {
+  display: grid;
+  gap: 15px;
+  padding-top: 17px;
+}
+
+.payment-review-card {
+  display: grid;
+  gap: 16px;
+  padding: 18px;
+  border: 1px solid #e8eae2;
+  border-radius: 12px;
+  background: #fff;
+}
+
+.payment-review-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 15px;
+}
+
+.payment-review-card-header p {
+  margin: 0 0 5px;
+  color: #9b765b;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+}
+
+.payment-review-card-header h2 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.payment-review-card-header span {
+  display: block;
+  margin-top: 4px;
+  color: #78837a;
+  font-size: 12px;
+  overflow-wrap: anywhere;
+}
+
+.payment-review-total {
+  color: #375d4a;
+  font-size: 17px;
+  white-space: nowrap;
+}
+
+.payment-review-facts {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  padding: 14px 0;
+  border-block: 1px solid #eceee7;
+}
+
+.payment-review-facts > div {
+  display: grid;
+  gap: 5px;
+  min-width: 0;
+}
+
+.payment-review-facts span {
+  color: #899188;
+  font-size: 10px;
+}
+
+.payment-review-facts strong {
+  color: #44574a;
+  font-size: 12px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.payment-review-screenshot {
+  display: grid;
+  width: fit-content;
+  max-width: 100%;
+  gap: 8px;
+  color: #42684e;
+  font-size: 11px;
+  text-decoration: none;
+}
+
+.payment-review-screenshot img {
+  display: block;
+  max-width: min(100%, 300px);
+  max-height: 250px;
+  border: 1px solid #e3e5dc;
+  border-radius: 8px;
+  background: #fafaf7;
+  object-fit: contain;
+}
+
+.payment-review-screenshot > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.payment-review-note {
+  display: grid;
+  gap: 7px;
+  color: #536258;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-review-note textarea {
+  width: 100%;
+  resize: vertical;
+  padding: 10px 11px;
+  border: 1px solid #dfe3d9;
+  border-radius: 8px;
+  background: white;
+  color: #263a30;
+  font: inherit;
+  font-weight: 400;
+}
+
+.payment-review-note textarea:focus-visible {
+  border-color: #64866f;
+  outline: 3px solid rgb(71 116 87 / 15%);
+}
+
+.payment-review-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.payment-review-action {
+  display: inline-flex;
+  min-height: 37px;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 0 12px;
+  border: 1px solid #dfe3d9;
+  border-radius: 8px;
+  background: white;
+  color: #46594b;
+  cursor: pointer;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 600;
+}
+
+.payment-review-action:disabled {
+  cursor: wait;
+  opacity: 0.55;
+}
+
+.payment-review-action--approve {
+  border-color: #c9decf;
+  background: #f1f7f1;
+  color: #315d3e;
+}
+
+.payment-review-action--reupload {
+  border-color: #e6d9ba;
+  background: #fffaf0;
+  color: #785f2c;
+}
+
+.payment-review-action--reject {
+  border-color: #eed5d1;
+  background: #fff7f5;
+  color: #934039;
+}
+
+.payment-review-loading,
+.payment-review-empty {
+  display: grid;
+  min-height: 190px;
+  place-content: center;
+  justify-items: center;
+  gap: 8px;
+  color: #78837a;
+  text-align: center;
+  font-size: 12px;
+}
+
+.payment-review-empty strong {
+  color: #46594b;
+  font-size: 14px;
+}
+
+.payment-review-empty svg {
+  color: #568060;
+}
+
+.payment-review-spinner {
+  animation: payment-review-spin 850ms linear infinite;
+}
+
+@keyframes payment-review-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 1100px) {
+  .payment-review-topbar {
+    align-items: flex-start;
+  }
+
+  .payment-review-nav {
+    flex-wrap: wrap;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 780px) {
+  .payment-review-topbar {
+    flex-direction: column;
+    gap: 12px;
+    padding: 15px 20px;
+  }
+
+  .payment-review-nav {
+    justify-content: flex-start;
+    gap: 5px;
+    width: 100%;
+  }
+
+  .payment-review-nav > span {
+    width: 100%;
+  }
+
+  .payment-review-content {
+    width: min(100% - 28px, 1120px);
+    padding-top: 28px;
+  }
+
+  .payment-review-metrics {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .payment-review-facts {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 520px) {
+  .payment-review-heading {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .payment-review-metrics article {
+    padding: 13px;
+  }
+
+  .payment-review-queue {
+    padding: 15px;
+  }
+
+  .payment-review-queue > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .payment-review-card {
+    padding: 14px;
+  }
+
+  .payment-review-actions,
+  .payment-review-action {
+    width: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .payment-review-spinner {
+    animation: none;
+  }
+}

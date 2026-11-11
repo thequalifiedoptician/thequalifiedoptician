@@ -11,6 +11,7 @@ import {
   Pencil,
   Plus,
   Search,
+  Settings,
   Sparkles,
   Trash2,
   X,
@@ -28,6 +29,7 @@ import {
 } from 'react';
 import { Link } from 'react-router-dom';
 import { getSupabaseClient } from '@/lib/supabase';
+import { useBrandSettings } from '@/features/brand/brandSettingsContext';
 import CatalogTaxonomyPanel from './CatalogTaxonomyPanel';
 import {
   deleteProduct,
@@ -115,6 +117,7 @@ function toEditorInput(details: ProductDetails): ProductEditorInput {
 }
 
 export default function AdminProductPage() {
+  const { settings: brand } = useBrandSettings();
   const reduceMotion = useReducedMotion();
   const [products, setProducts] = useState<ProductListItem[]>([]);
   const [categories, setCategories] = useState<CatalogCategory[]>([]);
@@ -262,11 +265,13 @@ export default function AdminProductPage() {
   return (
     <main className="admin-products">
       <header className="admin-topbar">
-        <Link className="admin-brand" to="/" aria-label="AlSera home">
-          <span className="admin-brand-mark">A</span>
+        <Link className="admin-brand" to="/" aria-label={`${brand.brand_name} home`}>
+          <span className="admin-brand-mark">
+            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
+          </span>
           <span>
-            <strong>AlSera</strong>
-            <small>Commerce studio</small>
+            <strong>{brand.brand_name}</strong>
+            <small>{brand.brand_tagline || 'Admin console'}</small>
           </span>
         </Link>
         <div className="admin-topbar-right">
@@ -276,6 +281,10 @@ export default function AdminProductPage() {
           </Link>
           <Link className="admin-back-link" to="/admin/orders">
             Orders
+          </Link>
+          <Link className="admin-back-link" to="/admin/settings/brand">
+            <Settings size={15} aria-hidden="true" />
+            Settings
           </Link>
           <Link className="admin-back-link" to="/">
             <ArrowLeft size={16} aria-hidden="true" />

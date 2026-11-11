@@ -47,11 +47,59 @@ export const router = createBrowserRouter([
             },
           },
           {
+            path: '/admin/deals',
+            lazy: async () => {
+              const { default: DealsAdminPage } =
+                await import('@/features/admin/deals/DealsAdminPage');
+              return { Component: DealsAdminPage };
+            },
+          },
+          {
+            path: '/admin/about',
+            lazy: async () => {
+              const { default: AboutAdminPage } =
+                await import('@/features/admin/about/AboutAdminPage');
+              return { Component: AboutAdminPage };
+            },
+          },
+          {
             path: '/admin/orders',
             lazy: async () => {
               const { default: AdminOrdersPage } =
                 await import('@/features/admin/orders/AdminOrdersPage');
               return { Component: AdminOrdersPage };
+            },
+          },
+          {
+            path: '/admin/payments/pending',
+            lazy: async () => {
+              const { default: PendingPaymentsAdminPage } =
+                await import('@/features/admin/payments/PendingPaymentsAdminPage');
+              return { Component: PendingPaymentsAdminPage };
+            },
+          },
+          {
+            path: '/admin/settings/payment-accounts',
+            lazy: async () => {
+              const { default: PaymentAccountsAdminPage } =
+                await import('@/features/admin/payments/PaymentAccountsAdminPage');
+              return { Component: PaymentAccountsAdminPage };
+            },
+          },
+          {
+            path: '/admin/settings/brand',
+            lazy: async () => {
+              const { default: BrandSettingsPage } =
+                await import('@/features/admin/brand/BrandSettingsPage');
+              return { Component: BrandSettingsPage };
+            },
+          },
+          {
+            path: '/admin/settings/social',
+            lazy: async () => {
+              const { default: SocialMediaAdminPage } =
+                await import('@/features/admin/social/SocialMediaAdminPage');
+              return { Component: SocialMediaAdminPage };
             },
           },
         ],
@@ -259,6 +307,27 @@ export const router = createBrowserRouter([
         },
       },
       {
+        path: 'deals',
+        lazy: async () => {
+          const { default: DealsPage } = await import('@/features/deals/DealsPage');
+          return { Component: DealsPage };
+        },
+      },
+      {
+        path: 'about',
+        lazy: async () => {
+          const { default: AboutPage } = await import('@/features/about/AboutPage');
+          return { Component: AboutPage };
+        },
+      },
+      {
+        path: 'contact',
+        lazy: async () => {
+          const { default: ContactPage } = await import('@/features/contact/ContactPage');
+          return { Component: ContactPage };
+        },
+      },
+      {
         path: 'wishlist',
         lazy: async () => {
           const { default: WishlistPage } = await import('@/features/wishlist/WishlistPage');
@@ -270,6 +339,14 @@ export const router = createBrowserRouter([
         lazy: async () => {
           const { default: CartPage } = await import('@/features/cart/CartPage');
           return { Component: CartPage };
+        },
+      },
+      {
+        path: 'checkout/manual-payment/:orderId',
+        lazy: async () => {
+          const { default: ManualPaymentPage } =
+            await import('@/features/checkout/payment/ManualPaymentPage');
+          return { Component: ManualPaymentPage };
         },
       },
       {

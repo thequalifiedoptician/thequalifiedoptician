@@ -689,7 +689,14 @@
   }
 
   .admin-topbar-navigation {
+    flex-wrap: wrap;
+    justify-content: flex-end;
     gap: 12px;
+  }
+
+  .admin-topbar-links {
+    flex-wrap: wrap;
+    justify-content: flex-end;
   }
 
   .admin-console-label {
@@ -750,13 +757,15 @@
 
   .admin-topbar-links {
     width: 100%;
-    justify-content: space-between;
+    justify-content: flex-start;
     gap: 5px;
+    overflow-x: auto;
+    scrollbar-width: thin;
   }
 
   .admin-topbar-link {
     min-height: 38px;
-    flex: 1 1 0;
+    flex: 0 0 auto;
     gap: 6px;
     padding-inline: 8px;
     font-size: 11px;

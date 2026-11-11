@@ -2200,6 +2200,34 @@
   color: #5e7c64;
 }
 
+.payment-brand-mark {
+  display: inline-flex;
+  align-items: baseline;
+  color: #176f40;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: -0.06em;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.payment-brand-mark > span {
+  color: #ef9f28;
+}
+
+.payment-brand-mark--jazzcash {
+  color: #e68d1d;
+  letter-spacing: -0.07em;
+}
+
+.payment-brand-mark--jazzcash > span {
+  color: #ba2d36;
+}
+
+.payment-brand-mark.is-large {
+  font-size: 23px;
+}
+
 .payment-method-copy {
   display: grid;
   min-width: 0;
@@ -2324,8 +2352,209 @@
   animation: checkout-processing-spin 900ms linear infinite;
 }
 
+.checkout-transfer-account {
+  display: grid;
+  gap: 14px;
+  margin-top: 14px;
+  padding: 18px;
+  border: 1px solid #dfe8dc;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #fbfcf8, #f3f7f0);
+}
+
+.checkout-transfer-account > header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.checkout-transfer-account > header p {
+  margin: 0 0 4px;
+  color: #78877a;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+}
+
+.checkout-transfer-account > header h3 {
+  margin: 0;
+  color: #3e5144;
+  font-size: 16px;
+}
+
+.checkout-transfer-account > header > span {
+  color: #69786b;
+  font-size: 10px;
+  text-align: right;
+}
+
+.checkout-transfer-account dl {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.checkout-transfer-account dl > div {
+  min-width: 0;
+  padding: 11px 12px;
+  border: 1px solid #e6ebe2;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.checkout-transfer-account dt {
+  margin-bottom: 5px;
+  color: #7a857c;
+  font-size: 9px;
+}
+
+.checkout-transfer-account dd {
+  margin: 0;
+  color: #3e5144;
+  font-size: 12px;
+  font-weight: 700;
+  overflow-wrap: anywhere;
+}
+
+.checkout-transfer-qr {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  margin: 0;
+}
+
+.checkout-transfer-qr img {
+  width: min(100%, 190px);
+  aspect-ratio: 1;
+  object-fit: contain;
+  padding: 8px;
+  border: 1px solid #e6ebe2;
+  border-radius: 10px;
+  background: #fff;
+}
+
+.checkout-transfer-qr figcaption,
+.checkout-transfer-qr-loading,
+.checkout-transfer-qr-error {
+  margin: 0;
+  color: #78857a;
+  font-size: 10px;
+  line-height: 1.5;
+  text-align: center;
+}
+
+.checkout-transfer-qr-error {
+  color: #99594e;
+}
+
+.checkout-transfer-proof {
+  display: grid;
+  gap: 9px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e9df;
+}
+
+.checkout-transfer-proof h4 {
+  margin: 0;
+  color: #3e5144;
+  font-size: 13px;
+}
+
+.checkout-transfer-proof > div > p,
+.checkout-transfer-proof-hint,
+.checkout-transfer-proof-error {
+  margin: 4px 0 0;
+  color: #78857a;
+  font-size: 10px;
+  line-height: 1.5;
+}
+
+.checkout-transfer-proof-picker {
+  display: flex;
+  min-height: 54px;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 10px 14px;
+  border: 1px dashed #aebeae;
+  border-radius: 10px;
+  background: #fff;
+  color: #496751;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 650;
+  overflow-wrap: anywhere;
+}
+
+.checkout-transfer-proof-picker:focus-within {
+  outline: 3px solid rgb(91 126 97 / 28%);
+  outline-offset: 3px;
+}
+
+.checkout-transfer-proof-picker input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+}
+
+.checkout-transfer-proof-hint {
+  margin-top: -5px;
+}
+
+.checkout-transfer-proof-error {
+  margin: 0;
+  color: #99594e;
+}
+
+.checkout-transfer-reference {
+  display: grid;
+  gap: 6px;
+  color: #536258;
+  font-size: 10px;
+  font-weight: 600;
+}
+
+.checkout-transfer-reference input {
+  width: 100%;
+  min-height: 38px;
+  padding: 0 10px;
+  border: 1px solid #dfe3d9;
+  border-radius: 8px;
+  background: #fff;
+  color: #263a30;
+  font: inherit;
+  font-weight: 400;
+}
+
+.checkout-transfer-reference input:focus-visible {
+  border-color: #64866f;
+  outline: 3px solid rgb(71 116 87 / 15%);
+}
+
 @media (max-width: 760px) {
   .payment-method-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .checkout-transfer-account {
+    padding: 14px;
+  }
+}
+
+@media (max-width: 440px) {
+  .checkout-transfer-account > header {
+    display: grid;
+  }
+
+  .checkout-transfer-account > header > span {
+    text-align: left;
+  }
+
+  .checkout-transfer-account dl {
     grid-template-columns: 1fr;
   }
 }

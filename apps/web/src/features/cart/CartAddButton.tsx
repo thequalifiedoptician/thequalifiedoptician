@@ -15,6 +15,8 @@ type CartAddButtonProps = {
   disabled?: boolean;
   className?: string;
   compact?: boolean;
+  label?: string;
+  authReturnTo?: string;
 };
 
 export default function CartAddButton({
@@ -25,6 +27,8 @@ export default function CartAddButton({
   disabled = false,
   className = '',
   compact = false,
+  label = 'Add to bag',
+  authReturnTo,
 }: CartAddButtonProps) {
   const { addToCart, isPending, operationErrors } = useCart();
   const { isAuthenticated } = useAuth();
@@ -46,7 +50,7 @@ export default function CartAddButton({
 
   const handleAdd = async () => {
     if (!isAuthenticated) {
-      navigate(AUTH_ROUTES.login, { state: getAuthRedirectState(location) });
+      navigate(AUTH_ROUTES.login, { state: getAuthRedirectState(location, authReturnTo) });
       return;
     }
     setWasAdded(false);
@@ -89,17 +93,15 @@ export default function CartAddButton({
             ) : (
               <ShoppingBag aria-hidden="true" />
             )}
-            {compact
-              ? pending
+            {pending
+              ? compact
                 ? 'Adding'
-                : wasAdded
+                : 'Adding to bag'
+              : wasAdded
+                ? compact
                   ? 'Added'
-                  : 'Add to bag'
-              : pending
-                ? 'Adding to bag'
-                : wasAdded
-                  ? 'Added to bag'
-                  : 'Add to bag'}
+                  : 'Added to bag'
+                : label}
           </motion.span>
         </AnimatePresence>
       </motion.button>
