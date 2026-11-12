@@ -80,9 +80,9 @@ export default function ShopProductCard({ product, index }: ShopProductCardProps
           <p className="shop-product-description">{product.short_description}</p>
         )}
         <div className="shop-product-price-row">
-          <span className="shop-product-price">${product.price.toFixed(2)}</span>
+          <span className="shop-product-price">Rs {product.price.toFixed(2)}</span>
           {hasDiscount && (
-            <span className="shop-product-compare-price">${product.compare_price!.toFixed(2)}</span>
+            <span className="shop-product-compare-price">Rs {product.compare_price!.toFixed(2)}</span>
           )}
         </div>
         {product.hasVariants ? (

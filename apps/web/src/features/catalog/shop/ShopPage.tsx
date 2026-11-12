@@ -215,7 +215,7 @@ function ShopFilters({
         <div className="shop-price-inputs">
           <label>
             <span className="visually-hidden">Minimum price</span>
-            <span>$</span>
+            <span>Rs</span>
             <input
               type="number"
               min="0"
@@ -228,7 +228,7 @@ function ShopFilters({
           <span aria-hidden="true">to</span>
           <label>
             <span className="visually-hidden">Maximum price</span>
-            <span>$</span>
+            <span>Rs</span>
             <input
               type="number"
               min="0"

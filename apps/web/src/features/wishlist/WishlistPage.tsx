@@ -233,7 +233,7 @@ export default function WishlistPage() {
                       <span aria-hidden="true" />
                       {product.inStock ? 'In stock' : 'Currently sold out'}
                     </p>
-                    <span className="wishlist-item-price">${product.price.toFixed(2)}</span>
+                    <span className="wishlist-item-price">Rs {product.price.toFixed(2)}</span>
                     {operationErrors.get(product.id) && (
                       <p className="wishlist-item-error" role="alert">
                         {operationErrors.get(product.id)}

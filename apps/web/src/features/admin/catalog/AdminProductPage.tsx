@@ -452,7 +452,7 @@ export default function AdminProductPage() {
                             </button>
                           </td>
                           <td className="admin-mono">{product.sku}</td>
-                          <td className="admin-price">${product.price.toFixed(2)}</td>
+                          <td className="admin-price">Rs {product.price.toFixed(2)}</td>
                           <td>
                             <span
                               className={
@@ -990,7 +990,7 @@ function ProductEditor({
             </Field>
             <Field label="Price" required>
               <div className="admin-input-affix">
-                <span>$</span>
+                <span>Rs</span>
                 <input
                   type="number"
                   min="0"
@@ -1003,7 +1003,7 @@ function ProductEditor({
             </Field>
             <Field label="Compare price" hint="Optional reference price">
               <div className="admin-input-affix">
-                <span>$</span>
+                <span>Rs</span>
                 <input
                   type="number"
                   min="0"
@@ -1256,7 +1256,7 @@ function ProductEditor({
                     </Field>
                     <Field label="Price override">
                       <div className="admin-input-affix">
-                        <span>$</span>
+                        <span>Rs</span>
                         <input
                           type="number"
                           min="0"
@@ -1419,8 +1419,8 @@ function ProductPreview({
             {product.short_description || 'No short description provided.'}
           </p>
           <div className="admin-preview-prices">
-            <strong>${product.price.toFixed(2)}</strong>
-            {product.compare_price !== null && <del>${product.compare_price.toFixed(2)}</del>}
+            <strong>Rs {product.price.toFixed(2)}</strong>
+            {product.compare_price !== null && <del>Rs {product.compare_price.toFixed(2)}</del>}
           </div>
           <dl className="admin-preview-meta">
             <div>

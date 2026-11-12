@@ -40,7 +40,7 @@ type LoadState =
   | { status: 'error'; message: string };
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+  return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(price);
 }
 
 export default function HomepageProductQuickView({ card, slug, onClose }: Props) {

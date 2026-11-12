@@ -11,7 +11,7 @@ type PurchaseInformationPanelProps = {
 };
 
 function formatPrice(price: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(price);
+  return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(price);
 }
 
 export default function PurchaseInformationPanel({

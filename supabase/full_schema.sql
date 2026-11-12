@@ -1,4 +1,4 @@
-﻿-- =========================================================
+-- =========================================================
 -- Migration: 20261105140000_create_profiles_on_auth_signup.sql
 -- =========================================================
 
@@ -1353,7 +1353,7 @@ create table if not exists public.orders (
   order_number text not null unique,
   idempotency_key uuid not null,
   status text not null default 'pending_payment',
-  currency text not null default 'USD',
+  currency text not null default 'PKR',
   subtotal numeric(12, 2) not null,
   shipping_amount numeric(12, 2) not null default 0,
   tax_amount numeric(12, 2) not null default 0,
@@ -1365,7 +1365,7 @@ create table if not exists public.orders (
   constraint orders_status_valid check (
     status in ('pending_payment', 'cancelled', 'expired')
   ),
-  constraint orders_currency_valid check (currency = 'USD'),
+  constraint orders_currency_valid check (currency = 'PKR'),
   constraint orders_amounts_nonnegative check (
     subtotal >= 0 and shipping_amount >= 0 and tax_amount >= 0 and total >= 0
   ),
@@ -1694,7 +1694,7 @@ begin
     current_order_number,
     p_idempotency_key,
     'pending_payment',
-    'USD',
+    'PKR',
     0,
     0,
     0,
@@ -1797,7 +1797,7 @@ begin
     end if;
     current_variant_label := nullif(
       pg_catalog.concat_ws(
-        ' Â· ',
+        ' · ',
         cart_line.color,
         cart_line.size,
         cart_line.material
@@ -1845,7 +1845,7 @@ begin
     select current_order_id,
       current_order_number,
       'pending_payment'::text,
-      'USD'::text,
+      'PKR'::text,
       current_subtotal,
       0::numeric,
       0::numeric,
@@ -1869,7 +1869,7 @@ create table if not exists public.payments (
   method_id text not null,
   status text not null default 'pending',
   amount numeric(12, 2) not null,
-  currency text not null default 'USD',
+  currency text not null default 'PKR',
   provider_reference text,
   provider_token_reference text,
   idempotency_key uuid not null,
@@ -2794,7 +2794,7 @@ values (
   'Objects for living',
   'AlSera',
   'AlSera',
-  'Â© {year} AlSera. A considered point of view.'
+  '© {year} AlSera. A considered point of view.'
 )
 on conflict (id) do nothing;
 

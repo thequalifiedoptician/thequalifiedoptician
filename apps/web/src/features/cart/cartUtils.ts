@@ -23,5 +23,5 @@ export function getCartItemSavings(item: CartDisplayItem): number {
 }
 
 export function formatCartPrice(amount: number): string {
-  return new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(amount);
+  return new Intl.NumberFormat('en-PK', { style: 'currency', currency: 'PKR' }).format(amount);
 }
