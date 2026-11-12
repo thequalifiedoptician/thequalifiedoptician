@@ -1,0 +1,334 @@
+.admin-unified-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  width: 100%;
+  box-sizing: border-box;
+  background: rgb(252 251 247 / 96%);
+  border-bottom: 1px solid #e2e3d8;
+  box-shadow: 0 4px 20px rgb(35 51 44 / 4%);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+.admin-unified-inner {
+  display: flex;
+  width: 100%;
+  max-width: 1440px;
+  min-height: 66px;
+  margin: 0 auto;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 8px 20px;
+  box-sizing: border-box;
+}
+
+.admin-brand-link {
+  display: inline-flex;
+  min-width: 0;
+  flex: 0 1 auto;
+  align-items: center;
+  gap: 10px;
+  color: #23332c;
+  text-decoration: none;
+}
+
+.admin-brand-mark {
+  display: grid;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  place-items: center;
+  overflow: hidden;
+  border: 1px solid rgb(52 88 75 / 15%);
+  border-radius: 12px;
+  background: linear-gradient(145deg, #eef3ec, #e2eade);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 90%);
+  color: #2a473d;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.admin-brand-mark img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.admin-brand-text {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+}
+
+.admin-brand-text strong {
+  overflow: hidden;
+  color: #1e3027;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-size: clamp(14px, 3vw, 17px);
+  font-weight: 600;
+  letter-spacing: -0.3px;
+  line-height: 1.15;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 240px;
+}
+
+.admin-brand-text small {
+  color: #728073;
+  font-size: 9px;
+  font-weight: 750;
+  letter-spacing: 0.12em;
+  line-height: 1.3;
+  text-transform: uppercase;
+}
+
+.admin-desktop-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.admin-nav-item {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 7px;
+  padding: 6px 11px;
+  border: 1px solid transparent;
+  border-radius: 9px;
+  color: #55665b;
+  font-size: 12.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 160ms ease;
+}
+
+.admin-nav-item svg {
+  flex-shrink: 0;
+  color: #7a8b7e;
+  stroke-width: 1.9;
+}
+
+.admin-nav-item:hover {
+  background: #f0f3eb;
+  border-color: #e0e6db;
+  color: #22372c;
+  transform: translateY(-1px);
+}
+
+.admin-nav-item:hover svg {
+  color: #22372c;
+}
+
+.admin-nav-item.is-active {
+  background: linear-gradient(135deg, #e8f0e5, #f3f5ee);
+  border-color: #d1dcce;
+  box-shadow: inset 0 1px 0 #fff, 0 2px 8px rgb(35 51 44 / 5%);
+  color: #22372c;
+  font-weight: 700;
+}
+
+.admin-nav-item.is-active svg {
+  color: #22372c;
+}
+
+.admin-nav-item.admin-nav-storefront {
+  margin-left: 4px;
+  background: rgb(52 88 75 / 8%);
+  border-color: rgb(52 88 75 / 16%);
+  color: #2a493c;
+}
+
+.admin-nav-item.admin-nav-storefront:hover {
+  background: rgb(52 88 75 / 14%);
+  color: #1e352b;
+}
+
+.admin-mobile-toggle {
+  display: none;
+  width: 38px;
+  height: 38px;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #dbe0d7;
+  border-radius: 10px;
+  background: #fff;
+  color: #23332c;
+  cursor: pointer;
+  transition: all 160ms ease;
+}
+
+.admin-mobile-toggle:hover {
+  background: #f4f6f1;
+}
+
+.admin-mobile-strip {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 6px 12px;
+  gap: 6px;
+  overflow-x: auto;
+  border-top: 1px solid #e7e8de;
+  background: rgb(249 248 243 / 96%);
+  scrollbar-width: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-mobile-strip::-webkit-scrollbar {
+  display: none;
+}
+
+.admin-strip-item {
+  display: inline-flex;
+  min-height: 32px;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border: 1px solid #e2e5dc;
+  border-radius: 8px;
+  background: #fff;
+  color: #55665b;
+  font-size: 11.5px;
+  font-weight: 600;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.admin-strip-item svg {
+  color: #7a8b7e;
+  stroke-width: 1.9;
+}
+
+.admin-strip-item.is-active {
+  background: #2a493c;
+  border-color: #2a493c;
+  color: #fff;
+}
+
+.admin-strip-item.is-active svg {
+  color: #fff;
+}
+
+.admin-mobile-drawer {
+  display: none;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 12px 16px 16px;
+  border-top: 1px solid #e7e8de;
+  background: rgb(255 255 255 / 98%);
+  box-shadow: 0 12px 28px rgb(35 51 44 / 10%);
+}
+
+.admin-mobile-drawer.is-open {
+  display: block;
+}
+
+.admin-drawer-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.admin-drawer-link {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 12px;
+  border: 1px solid #e8ebe3;
+  border-radius: 10px;
+  background: #fafbfa;
+  color: #314439;
+  font-size: 13px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 150ms ease;
+}
+
+.admin-drawer-link svg {
+  flex-shrink: 0;
+  color: #66796c;
+}
+
+.admin-drawer-link:hover {
+  background: #f1f4ee;
+  border-color: #d8ded3;
+}
+
+.admin-drawer-link.is-active {
+  background: #edf3ec;
+  border-color: #cbd8c8;
+  color: #1e352b;
+  font-weight: 700;
+}
+
+.admin-drawer-link.is-active svg {
+  color: #1e352b;
+}
+
+.admin-drawer-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid #ecefe8;
+}
+
+.admin-drawer-storefront {
+  display: inline-flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 10px 14px;
+  border-radius: 9px;
+  background: rgb(52 88 75 / 10%);
+  color: #244134;
+  font-size: 13px;
+  font-weight: 650;
+  text-decoration: none;
+}
+
+@media (max-width: 1140px) {
+  .admin-desktop-nav {
+    display: none;
+  }
+
+  .admin-mobile-toggle {
+    display: inline-flex;
+  }
+
+  .admin-mobile-strip {
+    display: flex;
+  }
+}
+
+@media (max-width: 580px) {
+  .admin-unified-inner {
+    min-height: 58px;
+    padding: 6px 12px;
+  }
+
+  .admin-brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    font-size: 18px;
+  }
+
+  .admin-brand-text strong {
+    font-size: 14.5px;
+    max-width: 175px;
+  }
+
+  .admin-drawer-grid {
+    grid-template-columns: 1fr;
+  }
+}

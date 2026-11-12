@@ -14,6 +14,7 @@ import {
   type BrandSettingsForm,
   type UploadedBrandAsset,
 } from '@/features/brand/brandSettingsService';
+import AdminNavbar from '../components/AdminNavbar';
 import './brand-settings.css';
 
 type Notice = { kind: 'success' | 'error'; message: string };
@@ -369,12 +370,7 @@ export default function BrandSettingsPage() {
 
   return (
     <main className="brand-settings-page">
-      <header className="brand-settings-topbar">
-        <Link className="brand-settings-back" to="/admin/homepage">
-          <ArrowLeft aria-hidden="true" /> Admin dashboard
-        </Link>
-        <span>SETTINGS</span>
-      </header>
+      <AdminNavbar />
 
       <div className="brand-settings-content">
         <header className="brand-settings-heading">

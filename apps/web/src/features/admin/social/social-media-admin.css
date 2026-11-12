@@ -1,6 +1,10 @@
 .social-settings-page {
   min-height: 100vh;
-  margin: 0 calc((min(100vw - 80px, var(--content-width)) - 100vw) / 2);
+  margin: 0;
+  width: 100%;
+  max-width: 100vw;
+  box-sizing: border-box;
+  overflow-x: hidden;
   background:
     radial-gradient(ellipse at 86% 9%, rgb(222 224 207 / 36%), transparent 28rem), #f5f4ee;
   color: #23332c;

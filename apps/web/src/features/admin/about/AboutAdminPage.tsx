@@ -19,6 +19,7 @@ import {
   type AboutPageContent,
 } from '@/features/about/aboutContent';
 import { loadAboutPageDraft, saveAboutPageDraft, uploadAboutImage } from '@/features/about/aboutService';
+import AdminNavbar from '../components/AdminNavbar';
 import './about-admin.css';
 
 type Notice = { tone: 'success' | 'error'; message: string };
@@ -211,30 +212,7 @@ export default function AboutAdminPage() {
 
   return (
     <main className="about-admin">
-      <header className="about-admin-topbar">
-        <Link className="about-admin-brand" to="/" aria-label={`${brand.brand_name} home`}>
-          <span className="about-admin-brand-mark">
-            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
-          </span>
-          <span>
-            <strong>{brand.brand_name}</strong>
-            <small>{brand.brand_tagline || 'Admin console'}</small>
-          </span>
-        </Link>
-        <nav className="about-admin-nav" aria-label="Admin navigation">
-          <Link to="/admin/homepage">Homepage</Link>
-          <Link to="/admin/deals">Deals</Link>
-          <Link className="is-active" to="/admin/about" aria-current="page">
-            About
-          </Link>
-          <Link to="/admin/settings/brand">
-            <Settings size={14} aria-hidden="true" /> Settings
-          </Link>
-          <Link className="about-admin-storefront" to="/about">
-            <ExternalLink size={14} aria-hidden="true" /> View About page
-          </Link>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <div className="about-admin-content">
         <Link className="about-admin-back" to="/admin/homepage">

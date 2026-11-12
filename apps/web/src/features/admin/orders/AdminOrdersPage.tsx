@@ -22,6 +22,7 @@ import {
   type AdminOrderStatus,
   type AdminOrderWithItems,
 } from './orderService';
+import AdminNavbar from '../components/AdminNavbar';
 import './admin-orders.css';
 
 type OrderNotice = { kind: 'error'; message: string };
@@ -269,33 +270,7 @@ export default function AdminOrdersPage() {
 
   return (
     <main className="admin-orders">
-      <header className="admin-orders-topbar">
-        <Link className="admin-orders-brand" to="/" aria-label={`${brand.brand_name} home`}>
-          <span className="admin-orders-brand-mark">
-            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
-          </span>
-          <span>
-            <strong>{brand.brand_name}</strong>
-            <small>{brand.brand_tagline || 'Admin console'}</small>
-          </span>
-        </Link>
-        <nav className="admin-orders-nav" aria-label="Admin navigation">
-          <span>ADMIN CONSOLE</span>
-          <Link to="/admin/homepage">Homepage</Link>
-          <Link to="/admin/products">Products</Link>
-          <Link className="is-active" to="/admin/orders" aria-current="page">
-            Orders
-          </Link>
-          <Link to="/admin/payments/pending">Pending payments</Link>
-          <Link to="/admin/settings/payment-accounts">Payment accounts</Link>
-          <Link to="/admin/settings/brand">
-            <Settings size={15} aria-hidden="true" /> Settings
-          </Link>
-          <Link to="/" className="admin-orders-storefront">
-            <ArrowLeft size={15} aria-hidden="true" /> Storefront
-          </Link>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <div className="admin-orders-content">
         <motion.header

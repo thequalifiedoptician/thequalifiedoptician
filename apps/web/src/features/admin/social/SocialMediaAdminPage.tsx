@@ -18,6 +18,7 @@ import {
   type SocialSettings,
   type SocialSettingsForm,
 } from '@/features/social/socialSettingsService';
+import AdminNavbar from '../components/AdminNavbar';
 import './social-media-admin.css';
 
 type Notice = { kind: 'success' | 'error'; message: string };
@@ -113,15 +114,7 @@ export default function SocialMediaAdminPage() {
 
   return (
     <main className="social-settings-page">
-      <header className="social-settings-topbar">
-        <Link className="social-settings-back" to="/admin/homepage">
-          <ArrowLeft aria-hidden="true" /> Admin dashboard
-        </Link>
-        <nav className="social-settings-nav" aria-label="Settings">
-          <Link to="/admin/settings/brand">Brand</Link>
-          <span aria-current="page">Social Media</span>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <div className="social-settings-content">
         <header className="social-settings-heading">

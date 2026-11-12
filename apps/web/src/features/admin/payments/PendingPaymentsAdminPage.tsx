@@ -13,6 +13,7 @@ import {
   type ManualPaymentAdminEntry,
   type ManualPaymentMetrics,
 } from './manualPaymentAdminService';
+import AdminNavbar from '../components/AdminNavbar';
 import './payment-review-admin.css';
 
 const EMPTY_METRICS: ManualPaymentMetrics = {
@@ -238,32 +239,7 @@ export default function PendingPaymentsAdminPage() {
 
   return (
     <main className="payment-review-admin">
-      <header className="payment-review-topbar">
-        <Link className="payment-review-brand" to="/" aria-label={`${brand.brand_name} home`}>
-          <span className="payment-review-brand-mark">
-            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
-          </span>
-          <span>
-            <strong>{brand.brand_name}</strong>
-            <small>{brand.brand_tagline || 'Admin console'}</small>
-          </span>
-        </Link>
-        <nav className="payment-review-nav" aria-label="Admin navigation">
-          <span>ADMIN CONSOLE</span>
-          <Link to="/admin/homepage">Homepage</Link>
-          <Link to="/admin/products">Products</Link>
-          <Link to="/admin/orders">Orders</Link>
-          <Link className="is-active" to="/admin/payments/pending" aria-current="page">
-            Pending payments
-          </Link>
-          <Link to="/admin/settings/payment-accounts">Payment accounts</Link>
-          <Link to="/admin/settings/brand">Brand settings</Link>
-          <Link to="/admin/settings/social">Social media</Link>
-          <Link to="/" className="payment-review-storefront">
-            <ArrowLeft size={15} aria-hidden="true" /> Storefront
-          </Link>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <div className="payment-review-content">
         <header className="payment-review-heading">

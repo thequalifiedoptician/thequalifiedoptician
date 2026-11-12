@@ -44,6 +44,7 @@ import {
   type ProductListItem,
   type ProductVariantInput,
 } from './productService';
+import AdminNavbar from '../components/AdminNavbar';
 import './admin-products.css';
 
 type Notice = { kind: 'success' | 'error'; message: string };
@@ -264,34 +265,7 @@ export default function AdminProductPage() {
 
   return (
     <main className="admin-products">
-      <header className="admin-topbar">
-        <Link className="admin-brand" to="/" aria-label={`${brand.brand_name} home`}>
-          <span className="admin-brand-mark">
-            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
-          </span>
-          <span>
-            <strong>{brand.brand_name}</strong>
-            <small>{brand.brand_tagline || 'Admin console'}</small>
-          </span>
-        </Link>
-        <div className="admin-topbar-right">
-          <span className="admin-console-label">ADMIN CONSOLE</span>
-          <Link className="admin-back-link" to="/admin/homepage">
-            Homepage studio
-          </Link>
-          <Link className="admin-back-link" to="/admin/orders">
-            Orders
-          </Link>
-          <Link className="admin-back-link" to="/admin/settings/brand">
-            <Settings size={15} aria-hidden="true" />
-            Settings
-          </Link>
-          <Link className="admin-back-link" to="/">
-            <ArrowLeft size={16} aria-hidden="true" />
-            Storefront
-          </Link>
-        </div>
-      </header>
+      <AdminNavbar />
 
       <div className="admin-content">
         <motion.section

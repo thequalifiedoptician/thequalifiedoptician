@@ -21,6 +21,7 @@ import {
   type Deal,
   type DealInput,
 } from '@/features/deals/dealsService';
+import AdminNavbar from '../components/AdminNavbar';
 import './deals-admin.css';
 
 type Notice = { tone: 'success' | 'error' | 'warning'; message: string };
@@ -351,28 +352,7 @@ export default function DealsAdminPage() {
 
   return (
     <main className="deals-admin">
-      <header className="deals-admin-topbar">
-        <Link className="deals-admin-brand" to="/" aria-label={`${brand.brand_name} home`}>
-          <span className="deals-admin-brand-mark">
-            {brand.logo_url ? <img src={brand.logo_url} alt="" /> : brand.brand_name.charAt(0)}
-          </span>
-          <span>
-            <strong>{brand.brand_name}</strong>
-            <small>{brand.brand_tagline || 'Admin console'}</small>
-          </span>
-        </Link>
-        <nav className="deals-admin-nav" aria-label="Admin navigation">
-          <Link to="/admin/homepage">Homepage</Link>
-          <Link to="/admin/products">Products</Link>
-          <Link to="/admin/orders">Orders</Link>
-          <Link className="is-active" to="/admin/deals" aria-current="page">
-            Deals
-          </Link>
-          <Link className="deals-admin-storefront" to="/">
-            <ExternalLink size={14} aria-hidden="true" /> Storefront
-          </Link>
-        </nav>
-      </header>
+      <AdminNavbar />
 
       <div className="deals-admin-content">
         <Link className="deals-admin-back" to="/admin/homepage">
