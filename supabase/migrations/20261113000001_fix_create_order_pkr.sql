@@ -312,7 +312,7 @@ begin
       ),
       ''
     );
-
+-- kkki
     insert into public.order_items (
       order_id,
       product_id,
